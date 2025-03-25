@@ -6,26 +6,26 @@ import org.openqa.selenium.WebElement;
 public abstract class BasePage {
     protected static WebDriver driver;
 
-    public void setDriver(WebDriver newDriver) {
+    public static void setDriver(WebDriver newDriver) {
             driver = newDriver;
     }
 
-   public WebElement find(By locator) {
+    protected WebElement find(By locator) {
         return driver.findElement(locator);
     }
 
-    public void set(By locator, String text) {
+    protected void set(By locator, String text) {
         WebElement field = find(locator);
         field.clear();
         field.sendKeys(text);
     }
 
-    public void click(By locator) {
+    protected void click(By locator) {
         WebElement button = find(locator);
         button.click();
     }
 
-    public String getText(By locator) {
+    protected String getInnerText(By locator) {
         return find(locator).getText();
     }
 }

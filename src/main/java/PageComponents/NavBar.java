@@ -5,53 +5,65 @@ import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import org.openqa.selenium.By;
 
-public class NavBar extends BasePage {
-    By logo = By.id("nava");
-    By homeLink = By.cssSelector("li[class='nav-item active'] a[class='nav-link']");
-    By contactLink = By.cssSelector("a[data-target='#exampleModal']");
-    By aboutUsLink= By.cssSelector("a[data-target='#videoModal']");
-    By cartLink = By.cssSelector("a[onclick='showcart()']");
-    By loginLink = By.id("#login2");
-    By LogoutLink = By.id("logout2");
-    By welcomeMsgLink = By.id("nameofuser");
-    By signUpLink = By.id("signin2");
+public class NavBar<T> extends BasePage {
+    private T currentPage;
 
-    public HomePage clickHome(){
+    private final By logo = By.id("nava");
+    private final By homeLink = By.cssSelector("li.nav-item.active a.nav-link");
+    private final By contactLink = By.cssSelector("a[data-target='#exampleModal']");
+    private final By aboutUsLink = By.cssSelector("a[data-target='#videoModal']");
+    private final By cartLink = By.linkText("Cart");
+    private final By loginLink = By.id("login2");
+    private final By logoutLink = By.id("logout2");
+    private final By welcomeMsgLink = By.id("nameofuser");
+    private final By signUpLink = By.id("signin2");
+
+    public NavBar(T currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public HomePage clickHome() {
         click(homeLink);
         return new HomePage();
     }
-    public HomePage clickLogo(){
+
+    public HomePage clickLogo() {
         click(logo);
         return new HomePage();
     }
-    public Contact clickContact(){
+
+    public Contact<T> clickContact() {
         click(contactLink);
-        return new Contact();
+        return new Contact<>(currentPage);
     }
-    public AboutUs clickAboutUs(){
+
+    public AboutUs clickAboutUs() {
         click(aboutUsLink);
         return new AboutUs();
     }
-    public CartPage clickCart(){
+
+    public CartPage clickCart() {
         click(cartLink);
         return new CartPage();
     }
 
-    public Login clickLogin(){
+    public Login clickLogin() {
         click(loginLink);
         return new Login();
     }
-    public HomePage clickLogOut(){
-        click(LogoutLink);
-        return new  HomePage();
+
+    public HomePage clickLogOut() {
+        click(logoutLink);
+        return new HomePage();
     }
-    public SignUp clickSignUp(){
+
+    public SignUp clickSignUp() {
         click(signUpLink);
         return new SignUp();
     }
 
-    public String getCreatingMsg(){
-        return getText(welcomeMsgLink);
+    public String getCreatingMsg() {
+        return getInnerText(welcomeMsgLink);
     }
-
 }
+

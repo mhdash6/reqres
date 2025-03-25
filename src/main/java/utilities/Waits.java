@@ -7,7 +7,7 @@ import java.time.Duration;
 
 public class Waits extends BaseUtility {
 
-    public static void fluentWait(By locator ,int seconds){
+    public static void fluentWait(By locator,int seconds){
         Wait<WebDriver> wait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(seconds))
                 .pollingEvery(Duration.ofMillis(300))
