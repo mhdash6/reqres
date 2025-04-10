@@ -1,18 +1,22 @@
 package PageComponents;
-
 import BasePage.BasePage;
 import org.openqa.selenium.By;
+import utilities.Waits;
 
-public class Contact<T> extends BasePage {
+
+
+public class ContactForm<T> extends BasePage<T> {
     private final T currentPage;
     private final By emailField = By.id("recipient-email");
     private final By nameField = By.id("recipient-name");
     private final By messageField = By.id("message-text");
     private final By sendMessageBtn = By.cssSelector("button[onclick='send()']");
     private final By closeBtn = By.cssSelector("div[id='exampleModal'] button[class='btn btn-secondary']");
-    public final  By body = By.cssSelector("div[id='exampleModal'] div[class='modal-content']");
-    public Contact(T currentPage) {
+    public final  By body = By.id("exampleModal");
+
+    public ContactForm(T currentPage) {
         this.currentPage = currentPage;
+        Waits.waitForVisibility(body,1);
     }
 
     public void enterEmail(String email) {

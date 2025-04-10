@@ -1,98 +1,87 @@
 package utilities;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.*;
 
-public class Tables  extends BaseUtility {
+public class Tables extends BaseUtility {
 
     public static String[] getHeadersNames(By... thLocators) {
-        List<String> headerNames = new ArrayList<>();
+        List<String> headers = new ArrayList<>();
         for (By locator : thLocators) {
-            for (WebElement element : driver.findElements(locator)) {
-                headerNames.add(element.getText());
+            for (WebElement el : getDriver().findElements(locator)) {
+                headers.add(el.getText().trim());
             }
         }
-        return headerNames.toArray(new String[0]);
+        return headers.toArray(new String[0]);
     }
 
     public static String[][] getTableRows(By rowLocator, By cellLocator) {
-        List<WebElement> rows = driver.findElements(rowLocator);
+        List<WebElement> rows = getDriver().findElements(rowLocator);
         if (rows.isEmpty()) return new String[0][];
 
-        List<Object[]> activeRowSpans = new ArrayList<>();
-        List<List<String>> tableData = new ArrayList<>();
-        int maxColumns = 0;
+        List<List<String>> table = new ArrayList<>();
+        List<String> activeValues = new ArrayList<>();
+        List<Integer> activeSpans = new ArrayList<>();
+        int maxCols = 0;
 
         for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(cellLocator);
             List<String> currentRow = new ArrayList<>();
-
-            List<Object[]> nextRowSpans = new ArrayList<>();
-            for (Object[] span : activeRowSpans) {
-                int col = (int) span[0];
-                String text = (String) span[1];
-                int remaining = (int) span[2];
-
-
-                while (currentRow.size() <= col) currentRow.add(null);
-
-                currentRow.set(col, text);
-                if (remaining > 1) {
-                    nextRowSpans.add(new Object[]{col, text, remaining - 1});
+            for (int i = 0; i < activeValues.size(); i++) {
+                while (currentRow.size() <= i) currentRow.add("");
+                currentRow.set(i, activeValues.get(i));
+                activeSpans.set(i, activeSpans.get(i) - 1);
+                if (activeSpans.get(i) < 1) {
+                    activeValues.set(i, "");
+                    activeSpans.set(i, 0);
                 }
             }
-            activeRowSpans = nextRowSpans;
 
+            List<WebElement> cells = row.findElements(cellLocator);
             int col = 0;
             for (WebElement cell : cells) {
+                while (col < currentRow.size() && !currentRow.get(col).equals("")) col++;
+                String text = cell.getText().trim();
+                int colspan = parseSpan(cell.getDomAttribute("colspan"));
+                int rowspan = parseSpan(cell.getDomAttribute("rowspan"));
 
-                while (col < currentRow.size() && currentRow.get(col) != null) col++;
-
-                String text = cell.getText();
-                int colspan = parseSpan(cell.getAttribute("colspan"), 1);
-                int rowspan = parseSpan(cell.getAttribute("rowspan"), 1);
-
-
-                while (currentRow.size() < col + colspan) currentRow.add(null);
                 for (int i = 0; i < colspan; i++) {
-                    currentRow.set(col + i, text);
-                }
+                    int index = col + i;
+                    while (currentRow.size() <= index) currentRow.add("");
+                    currentRow.set(index, text);
 
-
-                if (rowspan > 1) {
-                    activeRowSpans.add(new Object[]{col, text, rowspan - 1});
+                    while (activeValues.size() <= index) {
+                        activeValues.add("");
+                        activeSpans.add(0);
+                    }
+                    if (rowspan > 1) {
+                        activeValues.set(index, text);
+                        activeSpans.set(index, rowspan - 1);
+                    }
                 }
                 col += colspan;
             }
-
-            maxColumns = Math.max(maxColumns, currentRow.size());
-            tableData.add(currentRow);
+            maxCols = Math.max(maxCols, currentRow.size());
+            table.add(currentRow);
         }
 
-
-        return normalizeRows(tableData, maxColumns);
-    }
-
-    private static int parseSpan(String value, int defaultValue) {
-        if (value == null || value.isEmpty()) return defaultValue;
-        try {
-            return Integer.parseInt(value.trim());
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
-    }
-
-    private static String[][] normalizeRows(List<List<String>> tableData, int maxColumns) {
-        String[][] result = new String[tableData.size()][];
-        for (int i = 0; i < tableData.size(); i++) {
-            List<String> row = tableData.get(i);
-            result[i] = new String[maxColumns];
-            for (int j = 0; j < maxColumns; j++) {
-                result[i][j] = (j < row.size()) ? row.get(j) : "";
+        String[][] result = new String[table.size()][maxCols];
+        for (int i = 0; i < table.size(); i++) {
+            List<String> row = table.get(i);
+            for (int j = 0; j < maxCols; j++) {
+                result[i][j] = j < row.size() ? row.get(j) : "";
             }
         }
         return result;
     }
 
+    private static int parseSpan(String value) {
+        if (value == null || value.trim().isEmpty()) return 1;
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            return 1;
+        }
+    }
 }
+

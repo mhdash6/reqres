@@ -3,23 +3,31 @@ package com.demoblaze;
 import BasePage.BasePage;
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
+import utilities.Waits;
 
-public class HomePage extends BasePage {
-    public NavBar<HomePage> navBar = new NavBar<>(this);
+public class HomePage extends BasePage<HomePage>{
+
+    public NavBar<HomePage> navBar;
+    private final By phoneLocator = By.linkText("Nokia lumia 1520");
+    private final By addToCartButtonLocator = By.cssSelector(".btn.btn-success.btn-lg");
     private final String url = "https://www.demoblaze.com/";
-    private final By phone = By.cssSelector("body > div:nth-child(6) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h4:nth-child(1) > a:nth-child(1)");
+    private final By body = By.id("tbodyid");
+
+
+    public HomePage(){
+        navBar= new NavBar<HomePage>(this);
+    }
+
+
     public void loadHomePage() {
-        driver.get(url);
+
+        getDriver().get(url);
     }
 
-    public void closeAlert(){
-        driver.switchTo().alert().accept();
+    public ItemPage addProductToCart() {
+        Waits.waitForVisibility(phoneLocator,2);
+        click(phoneLocator);
+        return new ItemPage();
     }
-
-//    public void add(){
-//        click(phone);
-//        click(By.cssSelector(".btn.btn-success.btn-lg"));
-//    }
-
 }
 

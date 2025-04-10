@@ -4,8 +4,8 @@ import org.openqa.selenium.WebElement;
 
 public class JsExecutor extends BaseUtility {
     public static void scrollToElement(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth');"
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth' , block:'center'});"
                 ,element);
     }
 

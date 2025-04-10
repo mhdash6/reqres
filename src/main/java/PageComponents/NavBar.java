@@ -5,8 +5,10 @@ import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import org.openqa.selenium.By;
 
-public class NavBar<T> extends BasePage {
-    private T currentPage;
+import static utilities.Gets.getInnerText;
+
+public class NavBar<T> extends BasePage<T> {
+    private final T currentPage;
 
     private final By logo = By.id("nava");
     private final By homeLink = By.cssSelector("li.nav-item.active a.nav-link");
@@ -17,6 +19,7 @@ public class NavBar<T> extends BasePage {
     private final By logoutLink = By.id("logout2");
     private final By welcomeMsgLink = By.id("nameofuser");
     private final By signUpLink = By.id("signin2");
+
 
     public NavBar(T currentPage) {
         this.currentPage = currentPage;
@@ -32,14 +35,14 @@ public class NavBar<T> extends BasePage {
         return new HomePage();
     }
 
-    public Contact<T> clickContact() {
+    public ContactForm<T> clickContact() {
         click(contactLink);
-        return new Contact<>(currentPage);
+        return new ContactForm<>(currentPage);
     }
 
-    public AboutUs clickAboutUs() {
+    public AboutUs<T> clickAboutUs() {
         click(aboutUsLink);
-        return new AboutUs();
+        return new AboutUs<>(currentPage);
     }
 
     public CartPage clickCart() {
@@ -47,9 +50,9 @@ public class NavBar<T> extends BasePage {
         return new CartPage();
     }
 
-    public Login clickLogin() {
+    public LoginForm<T> clickLogin() {
         click(loginLink);
-        return new Login();
+        return new LoginForm<>(currentPage);
     }
 
     public HomePage clickLogOut() {
@@ -57,12 +60,12 @@ public class NavBar<T> extends BasePage {
         return new HomePage();
     }
 
-    public SignUp clickSignUp() {
+    public SignUpForm<T> clickSignUp() {
         click(signUpLink);
-        return new SignUp();
+        return new SignUpForm<>(currentPage);
     }
 
-    public String getCreatingMsg() {
+    public String getGreatingMsg() {
         return getInnerText(welcomeMsgLink);
     }
 }
