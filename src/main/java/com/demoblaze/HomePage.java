@@ -23,11 +23,12 @@ public class HomePage extends BasePage<HomePage>{
 
         getDriver().get(url);
     }
-
     public ItemPage addProductToCart() {
         Waits.waitForVisibility(phoneLocator,2);
         click(phoneLocator);
         return new ItemPage();
     }
+
+
 }
 

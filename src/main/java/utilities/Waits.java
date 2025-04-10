@@ -26,8 +26,6 @@ public class Waits extends BaseUtility {
 
 
 
-
-
     public static void implicitlyWaitFor(int seconds) {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
     }

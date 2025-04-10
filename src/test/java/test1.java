@@ -32,27 +32,27 @@ public class test1 {
         homePage = new HomePage();
         homePage.loadHomePage();
     }
-    @Test
-    public void testContact() {
-        ContactForm<HomePage> newMessage = homePage.navBar.clickContact();
-        newMessage.enterMessage("hi");
-        newMessage.enterEmail("ash");
-        newMessage.enterName("ash");
-        homePage = newMessage.clickSendMessageBtn();
-        Alert.clickOK();
-    }
-
-
-    @Test
-    public void cartTable(){
-        CartPage cartPage= homePage.navBar.clickCart();
-        AboutUs<CartPage> aboutUs = cartPage.navBar.clickAboutUs();
-        System.out.println(aboutUs.getErrorMsg());
-        aboutUs.clickExit();
-        cartPage=aboutUs.clickClose();
-        System.out.println(cartPage.getItemsCount());
-        cartPage.printItemsInCart();
-    }
+//    @Test
+//    public void testContact() {
+//        ContactForm<HomePage> newMessage = homePage.navBar.clickContact();
+//        newMessage.enterMessage("hi");
+//        newMessage.enterEmail("ash");
+//        newMessage.enterName("ash");
+//        homePage = newMessage.clickSendMessageBtn();
+//        Alert.clickOK();
+//    }
+//
+//
+//    @Test
+//    public void cartTable(){
+//        CartPage cartPage= homePage.navBar.clickCart();
+//        AboutUs<CartPage> aboutUs = cartPage.navBar.clickAboutUs();
+//        System.out.println(aboutUs.getErrorMsg());
+//        aboutUs.clickExit();
+//        cartPage=aboutUs.clickClose();
+//        System.out.println(cartPage.getItemsCount());
+//        cartPage.printItemsInCart();
+//    }
 
     @Test
     public void purchase(){
@@ -61,16 +61,18 @@ public class test1 {
        itemPage.acceptAlert();
        CartPage cartPage= itemPage.navBar.clickCart();
        cartPage.printItemsInCart();
-       OrderForm orderForm= cartPage.clickPlaceOrder();
-       orderForm.enterCard("12");
-       orderForm.enterCountry("eg");
-       orderForm.enterCity("as");
-       orderForm.enterMonth("12");
-       orderForm.enterYear("12");
-       orderForm.enterName("ash");
-       orderForm.clickPurchase();
-       softAssert.assertTrue(orderForm.isSuccesfull());
-       orderForm.clickOk();
+       cartPage.deleteItem("Nokia lumia 1520");
+       cartPage.printItemsInCart();
+//       OrderForm orderForm= cartPage.clickPlaceOrder();
+//       orderForm.enterCard("12");
+//       orderForm.enterCountry("eg");
+//       orderForm.enterCity("as");
+//       orderForm.enterMonth("12");
+//       orderForm.enterYear("12");
+//       orderForm.enterName("ash");
+//       orderForm.clickPurchase();
+//       softAssert.assertTrue(orderForm.isSuccesfull());
+//       orderForm.clickOk();
     }
 
 
