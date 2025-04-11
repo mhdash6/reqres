@@ -87,5 +87,13 @@ public class NavBar<T> extends BasePage<T> {
         logger.get().info("Greeting message fetched: {}", message);
         return message;
     }
+
+    public boolean isLoggedIn() {
+        logger.get().info("Checking if the user is logged in.");
+        boolean loggedIn = !getDriver().findElements(welcomeMsgLink).isEmpty();
+        logger.get().info("User is in : {}", loggedIn);
+        return loggedIn;
+    }
+    
 }
 

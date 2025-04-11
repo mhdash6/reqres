@@ -2,7 +2,6 @@ package PageComponents;
 
 import BasePage.BasePage;
 import org.openqa.selenium.By;
-import utilities.JsExecutor;
 import utilities.Waits;
 import static utilities.Gets.getInnerText;
 
