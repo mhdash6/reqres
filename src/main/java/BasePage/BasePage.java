@@ -1,15 +1,16 @@
 package BasePage;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-
+import org.slf4j.Logger;
+import utilities.LoggerFactoryUtility;
 
 public abstract class BasePage<T> {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
+   
+    protected final ThreadLocal<Logger> logger = ThreadLocal.withInitial(() -> LoggerFactoryUtility.getLogger(this.getClass()));
 
     public static void setDriver(WebDriver newDriver) {
         driver.set(newDriver);
