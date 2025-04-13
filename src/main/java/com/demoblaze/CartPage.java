@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class CartPage extends BasePage<CartPage> {
 
-    public static NavBar<CartPage> navBar;
+    public NavBar<CartPage> navBar;
 
     private final By placeOrderBtn = By.cssSelector(".btn.btn-success");
     private final By tableHeaders = By.cssSelector("thead th");
