@@ -25,7 +25,7 @@ public class NavBar<T> extends BasePage<T> {
         logger.get().info("Initializing NavBar component for the current page.");
     }
 
-    public HomePage clickHome() {
+    public  HomePage clickHome() {
         logger.get().info("Clicking the 'Home' link in the NavBar.");
         click(homeLink);
         logger.get().info("'Home' link clicked successfully. Navigating to HomePage.");

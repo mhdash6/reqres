@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class CartPage extends BasePage<CartPage> {
 
-    public NavBar<CartPage> navBar;
+    public static NavBar<CartPage> navBar;
 
     private final By placeOrderBtn = By.cssSelector(".btn.btn-success");
     private final By tableHeaders = By.cssSelector("thead th");
@@ -93,14 +93,9 @@ public class CartPage extends BasePage<CartPage> {
                 String itemName = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
                 if (itemName.equals(deleteThis)) {
                     logger.get().info("Item '{}' found in the cart. Attempting to delete it.", deleteThis);
-
-                    // Get a unique locator for the row to wait for its removal
                     By rowLocator = By.xpath("//tr[td[text()='" + deleteThis + "']]");
-
                     WebElement deleteButton = row.findElement(By.tagName("a"));
                     deleteButton.click();
-
-                    // Wait for the row to be removed from the DOM
                     Waits.waitForElementToBeInvisible(rowLocator, 2);
                     logger.get().info("Item '{}' deleted successfully.", deleteThis);
                     itemDeleted = true;
