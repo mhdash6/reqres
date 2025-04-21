@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class DataUtil extends BaseUtility {
+public class DataUtil  {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 

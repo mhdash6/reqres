@@ -1,9 +1,12 @@
 package com.demoblaze;
 
+import static utilities.SimpleElementActions.click;
+import static utilities.SimpleElementActions.find;
 import BasePage.BasePage;
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
 import utilities.Alert;
+import utilities.LogsUtil;
 import utilities.Waits;
 
 public class ItemPage extends BasePage<ItemPage> {
@@ -17,25 +20,25 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     private String getProductName() {
-        Waits.waitForElementVisibility(productNameLocator,2);
-        logger.get().info("Fetching the product name.");
-        String productName = getDriver().findElement(productNameLocator).getText();
-        logger.get().info("Product name fetched: {}", productName);
+        Waits.waitForElementVisibility(getDriver(), productNameLocator, 2);
+        LogsUtil.info("Fetching the product name.");
+        String productName = find(getDriver(), productNameLocator).getText();
+        LogsUtil.info("Product name fetched: " + productName);
         return productName;
     }
 
     public void clickAddToCart() {
         String productName = getProductName();
-        logger.get().info("Waiting for the 'Add to Cart' button for product '{}' to be visible.", productName);
-        Waits.waitForElementVisibility(addToCartButtonLocator, 2);
-        logger.get().info("Clicking the 'Add to Cart' button for product '{}'.", productName);
-        click(addToCartButtonLocator);
-        logger.get().info("'Add to Cart' button clicked successfully for product '{}'.", productName);
+        LogsUtil.info("Waiting for the 'Add to Cart' button for product '" + productName + "' to be visible.");
+        Waits.waitForElementVisibility(getDriver(), addToCartButtonLocator, 2);
+        LogsUtil.info("Clicking the 'Add to Cart' button for product '" + productName + "'.");
+        click(addToCartButtonLocator, getDriver());
+        LogsUtil.info("'Add to Cart' button clicked successfully for product '" + productName + "'.");
     }
 
     public void acceptAlert() {
-        logger.get().info("Accepting the alert for the product.");
-        Alert.clickOK();
-        logger.get().info("Alert accepted successfully.");
+        LogsUtil.info("Accepting the alert for the product.");
+        Alert.clickOK(getDriver());
+        LogsUtil.info("Alert accepted successfully.");
     }
 }

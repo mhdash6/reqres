@@ -1,23 +1,27 @@
 package utilities;
 
+import static utilities.SimpleElementActions.findAll; 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import java.util.*;
 
-public class Tables extends BaseUtility {
+import java.util.ArrayList;
+import java.util.List;
 
-    public static String[] getHeadersNames(By... thLocators) {
+public class Tables {
+
+    public static String[] getHeadersNames(WebDriver driver, By... thLocators) {
         List<String> headers = new ArrayList<>();
         for (By locator : thLocators) {
-            for (WebElement el : getDriver().findElements(locator)) {
+            for (WebElement el : findAll(driver, locator)) { 
                 headers.add(el.getText().trim());
             }
         }
         return headers.toArray(new String[0]);
     }
 
-    public static String[][] getTableRows(By rowLocator, By cellLocator) {
-        List<WebElement> rows = getDriver().findElements(rowLocator);
+    public static String[][] getTableRows(By rowLocator, By cellLocator, WebDriver driver) {
+        List<WebElement> rows = findAll(driver, rowLocator);
         if (rows.isEmpty()) return new String[0][];
 
         List<List<String>> table = new ArrayList<>();

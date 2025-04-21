@@ -2,7 +2,12 @@ package PageComponents;
 
 import BasePage.BasePage;
 import org.openqa.selenium.By;
+import utilities.LogsUtil;
 import utilities.Waits;
+
+import static utilities.SimpleElementActions.click;
+import static utilities.SimpleElementActions.set;
+import static utilities.SimpleElementActions.find;
 
 public class OrderForm<T> extends BasePage<T> {
     private final T currentPage;
@@ -21,82 +26,81 @@ public class OrderForm<T> extends BasePage<T> {
 
     public OrderForm(T currentPage) {
         this.currentPage = currentPage;
-        logger.get().info("Initializing OrderForm component for the current page.");
-        Waits.waitForElementVisibility(body, 2);
-        logger.get().info("OrderForm modal is visible.");
+        LogsUtil.info("Initializing OrderForm component for the current page.");
+        Waits.waitForElementVisibility(getDriver(), body, 2);
+        LogsUtil.info("OrderForm modal is visible.");
     }
 
     public void enterName(String name) {
-        logger.get().info("Entering name: {}", name);
-        set(nameField, name);
-        logger.get().info("Name entered successfully.");
+        LogsUtil.info("Entering name: " + name);
+        set(nameField, getDriver(), name);
+        LogsUtil.info("Name entered successfully.");
     }
 
     public void enterCountry(String country) {
-        logger.get().info("Entering country: {}", country);
-        set(countryField, country);
-        logger.get().info("Country entered successfully.");
+        LogsUtil.info("Entering country: " + country);
+        set(countryField, getDriver(), country);
+        LogsUtil.info("Country entered successfully.");
     }
 
     public void enterCity(String city) {
-        logger.get().info("Entering city: {}", city);
-        set(cityField, city);
-        logger.get().info("City entered successfully.");
+        LogsUtil.info("Entering city: " + city);
+        set(cityField, getDriver(), city);
+        LogsUtil.info("City entered successfully.");
     }
 
     public void enterCard(String card) {
-        logger.get().info("Entering card number: {}", card);
-        set(cardField, card);
-        logger.get().info("Card number entered successfully.");
+        LogsUtil.info("Entering card number: " + card);
+        set(cardField, getDriver(), card);
+        LogsUtil.info("Card number entered successfully.");
     }
 
     public void enterMonth(String month) {
-        logger.get().info("Entering month: {}", month);
-        set(monthField, month);
-        logger.get().info("Month entered successfully.");
+        LogsUtil.info("Entering month: " + month);
+        set(monthField, getDriver(), month);
+        LogsUtil.info("Month entered successfully.");
     }
 
     public void enterYear(String year) {
-        logger.get().info("Entering year: {}", year);
-        set(yearField, year);
-        logger.get().info("Year entered successfully.");
+        LogsUtil.info("Entering year: " + year);
+        set(yearField, getDriver(), year);
+        LogsUtil.info("Year entered successfully.");
     }
 
     public T clickClose() {
-        logger.get().info("Clicking the 'Close' button on the OrderForm modal.");
-        click(closeBtn);
-        logger.get().info("'Close' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Close' button on the OrderForm modal.");
+        click(closeBtn, getDriver());
+        LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
 
     public void clickPurchase() {
-        logger.get().info("Clicking the 'Purchase' button on the OrderForm modal.");
-        click(purchaseBtn);
-        logger.get().info("'Purchase' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Purchase' button on the OrderForm modal.");
+        click(purchaseBtn, getDriver());
+        LogsUtil.info("'Purchase' button clicked successfully.");
     }
 
     public void clickOk() {
-        logger.get().info("Waiting for the 'OK' button to be visible.");
-        Waits.waitForElementVisibility(okBtn, 1);
-        logger.get().info("Clicking the 'OK' button.");
-        Waits.waitForAjaxToComplete();
-        click(okBtn);
-        logger.get().info("'OK' button clicked successfully.");
+        LogsUtil.info("Waiting for the 'OK' button to be visible.");
+        Waits.waitForElementVisibility(getDriver(), okBtn, 1);
+        LogsUtil.info("Clicking the 'OK' button.");
+        click(okBtn, getDriver());
+        LogsUtil.info("'OK' button clicked successfully.");
     }
 
     public boolean isSuccessful() {
-        logger.get().info("Checking if the success message is displayed.");
-        Waits.waitForElementVisibility(successMsg, 3);
-        boolean isDisplayed = find(successMsg).isDisplayed();
-        logger.get().info("Success message displayed: {}", isDisplayed);
+        LogsUtil.info("Checking if the success message is displayed.");
+        Waits.waitForElementVisibility(getDriver(), successMsg, 3);
+        boolean isDisplayed = find(getDriver(), successMsg).isDisplayed();
+        LogsUtil.info("Success message displayed: " + isDisplayed);
         return isDisplayed;
     }
 
     public String getSuccessMessage() {
-        logger.get().info("Fetching the success message.");
-        Waits.waitForElementVisibility(successMsg, 3);
-        String message = find(successMsg).getText();
-        logger.get().info("Success message fetched: {}", message);
+        LogsUtil.info("Fetching the success message.");
+        Waits.waitForElementVisibility(getDriver(), successMsg, 3);
+        String message = find(getDriver(), successMsg).getText();
+        LogsUtil.info("Success message fetched: " + message);
         return message;
     }
 }

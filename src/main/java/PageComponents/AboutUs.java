@@ -3,7 +3,9 @@ package PageComponents;
 import BasePage.BasePage;
 import org.openqa.selenium.By;
 import utilities.Waits;
+import utilities.LogsUtil;
 import static utilities.Gets.getInnerText;
+import static utilities.SimpleElementActions.click;
 
 public class AboutUs<T> extends BasePage<T> {
 
@@ -15,33 +17,30 @@ public class AboutUs<T> extends BasePage<T> {
 
     public AboutUs(T currentPage) {
         this.currentPage = currentPage;
-        logger.get().info("Initializing AboutUs component for the current page.");
-        Waits.waitForElementVisibility(body, 2);
-        logger.get().info("AboutUs modal is visible.");
+        LogsUtil.info("Initializing AboutUs component for the current page.");
+        Waits.waitForElementVisibility(getDriver(), body, 2);
+        LogsUtil.info("AboutUs modal is visible.");
     }
 
     public String getErrorMsg() {
-        logger.get().info("Fetching error message from the AboutUs modal.");
-        String message = getInnerText(errorMsg);
-        logger.get().info("Error message fetched: {}", message);
+        LogsUtil.info("Fetching error message from the AboutUs modal.");
+        String message = getInnerText(errorMsg, getDriver());
+        LogsUtil.info("Error message fetched: " + message);
         return message;
     }
 
     public T clickClose() {
-        logger.get().info("Clicking the 'Close' button on the AboutUs modal.");
-        Waits.waitForElementToBeClickable(closeBtn,2);
-        click(errorMsg);
-        Waits.waitForAjaxToComplete();
-        click(closeBtn);
-        logger.get().info("'Close' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Close' button on the AboutUs modal.");
+        Waits.waitForElementToBeClickable(getDriver(), closeBtn, 2);
+        click(closeBtn, getDriver());
+        LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
 
     public void clickExit() {
-        logger.get().info("Clicking the 'Exit' button on the AboutUs modal.");
-        Waits.waitForElementToBeClickable(exitBtn,2);
-
-        click(exitBtn);
-        logger.get().info("'Exit' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Exit' button on the AboutUs modal.");
+        Waits.waitForElementToBeClickable(getDriver(), exitBtn, 2);
+        click(exitBtn, getDriver());
+        LogsUtil.info("'Exit' button clicked successfully.");
     }
 }

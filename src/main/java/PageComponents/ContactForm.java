@@ -3,7 +3,10 @@ package PageComponents;
 import BasePage.BasePage;
 import org.openqa.selenium.By;
 import utilities.Alert;
+import utilities.LogsUtil;
 import utilities.Waits;
+import static utilities.SimpleElementActions.click;
+import static utilities.SimpleElementActions.set;
 
 public class ContactForm<T> extends BasePage<T> {
 
@@ -17,54 +20,56 @@ public class ContactForm<T> extends BasePage<T> {
 
     public ContactForm(T currentPage) {
         this.currentPage = currentPage;
-        logger.get().info("Initializing ContactForm component for the current page.");
-        Waits.waitForElementVisibility(body, 1);
-        logger.get().info("ContactForm modal is visible.");
+        LogsUtil.info("Initializing ContactForm component for the current page.");
+        Waits.waitForElementVisibility(getDriver(), body, 1);
+        LogsUtil.info("ContactForm modal is visible.");
     }
 
     public void enterEmail(String email) {
-        logger.get().info("Entering email: {}", email);
-        set(emailField, email);
-        logger.get().info("Email entered successfully.");
+        LogsUtil.info("Entering email: " + email);
+        set(emailField, getDriver(),email);
+        LogsUtil.info("Email entered successfully.");
     }
 
     public void enterName(String name) {
-        logger.get().info("Entering name: {}", name);
-        set(nameField, name);
-        logger.get().info("Name entered successfully.");
+        LogsUtil.info("Entering name: " + name);
+        set(nameField, getDriver(),name);
+        LogsUtil.info("Name entered successfully.");
     }
 
     public void enterMessage(String message) {
-        logger.get().info("Entering message: {}", message);
-        set(messageField, message);
-        logger.get().info("Message entered successfully.");
+        LogsUtil.info("Entering message: " + message);
+        set(messageField, getDriver() ,message);
+        LogsUtil.info("Message entered successfully.");
     }
 
     public void fillContactForm(String email, String name, String message) {
-        logger.get().info("Filling the contact form with email: {}, name: {}, and message: {}", email, name, message);
+        LogsUtil.info("Filling the contact form with email: " + email + ", name: " + name + ", and message: " + message);
         enterEmail(email);
         enterName(name);
         enterMessage(message);
-        logger.get().info("Contact form filled successfully.");
+        LogsUtil.info("Contact form filled successfully.");
     }
 
     public T clickCloseBtn() {
-        logger.get().info("Clicking the 'Close' button on the ContactForm modal.");
-        click(closeBtn);
-        logger.get().info("'Close' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Close' button on the ContactForm modal.");
+        click(closeBtn, getDriver());
+        LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
 
     public T clickSendMessageBtn() {
-        logger.get().info("Clicking the 'Send Message' button on the ContactForm modal.");
-        click(sendMessageBtn);
-        logger.get().info("'Send Message' button clicked successfully.");
+        LogsUtil.info("Clicking the 'Send Message' button on the ContactForm modal.");
+        click(sendMessageBtn, getDriver());
+        LogsUtil.info("'Send Message' button clicked successfully.");
         return currentPage;
     }
 
-    public boolean successMsgDisplayed(){
-        return Alert.getAlertMessage().equals("Thanks for the message!!");
+    public boolean successMsgDisplayed() {
+        LogsUtil.info("Checking if the success message is displayed.");
+        boolean isDisplayed = Alert.getAlertMessage(getDriver()).equals("Thanks for the message!!");
+        LogsUtil.info("Success message displayed: " + isDisplayed);
+        return isDisplayed;
     }
-
 }
 
