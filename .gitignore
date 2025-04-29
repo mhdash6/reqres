@@ -40,4 +40,5 @@ build/
 /src/main/resources/properties/.secret.properites
 /src/main/resources/properties/env.properties
 /src/main/resources/properties/env10.properties
+/src/main/resources/properties/testConfig.properties
 /src/main/resources/healenium.properties
