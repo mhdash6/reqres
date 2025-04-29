@@ -1,4 +1,5 @@
-import BasePage.BasePage;
+package testclasses;
+
 import PageComponents.ContactForm;
 import PageComponents.LoginForm;
 import PageComponents.OrderForm;
@@ -6,59 +7,30 @@ import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import com.demoblaze.ItemPage;
 import org.apache.logging.log4j.ThreadContext;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import utilities.DataUtil;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import utilities.common.DataUtils;
+import utilities.common.DateTime;
+import utilities.selenium.helperClasses.ScreenShotUtils;
+
+
 
 import java.util.Map;
 
 public class SimpleTests {
+    private HomePage homePage= new HomePage();
+    private Map<String, Object> testData = (Map<String, Object>) DataUtils.readJson("src/main/resources/testData.json");
 
-    private HomePage homePage;
-    private WebDriver driver;
-    private Map<String, Object> testData;
+
 
     @BeforeClass
     public void loadTestData(  ) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");
-        String formattedDateTime = LocalDateTime.now().format(formatter);
-        ThreadContext.put("datetime", formattedDateTime);
-        testData = DataUtil.readJson("src/main/resources/testData.json");
-
-    }
-    @Parameters("browser")
-    @BeforeMethod
-    public void setup( String browser) {
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                driver = new ChromeDriver();
-                break;
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            case "edge":
-                driver = new EdgeDriver();
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported browser: " + browser);
-        }
-
-
-        ThreadContext.put("browser", browser);
-        driver.manage().window().maximize();
-        BasePage.setDriver(driver);
-        homePage = new HomePage();
-        homePage.loadHomePage();
+        ThreadContext.put("datetime", DateTime.getDateTime());
     }
 
     @Test
     public void testContactFormSubmission() {
+        homePage.loadHomePage();
         SoftAssert softAssert = new SoftAssert();
         Map<String, String> contactFormData = (Map<String, String>) testData.get("contactForm");
         ContactForm<HomePage> contactForm = homePage.navBar.clickContact();
@@ -72,18 +44,21 @@ public class SimpleTests {
 
     @Test
     public void testLogin() {
+        homePage.loadHomePage();
         SoftAssert softAssert = new SoftAssert();
         Map<String, String> loginFormData = (Map<String, String>) testData.get("loginForm");
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         loginForm.enterUserName(loginFormData.get("username"));
         loginForm.enterPassword(loginFormData.get("password"));
         homePage = loginForm.clickLogin();
+        ScreenShotUtils.takeScreenShot("Login");
         softAssert.assertTrue(homePage.navBar.isLoggedIn(), "Login failed.");
         softAssert.assertAll();
     }
 
     @Test
     public void testProductPurchase() {
+        homePage.loadHomePage();
         SoftAssert softAssert = new SoftAssert();
         String productName = (String) testData.get("product");
         Map<String, String> orderFormData = (Map<String, String>) testData.get("orderForm");
@@ -107,6 +82,7 @@ public class SimpleTests {
 
     @Test
     public void testCartDeletion() {
+        homePage.loadHomePage();
         SoftAssert softAssert = new SoftAssert();
         String productName = (String) testData.get("product");
         ItemPage itemPage = homePage.addProductToCart(productName);
@@ -120,15 +96,4 @@ public class SimpleTests {
         softAssert.assertAll();
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
-    @AfterClass(alwaysRun = true)
-    public void closeDriver() {
-        ThreadContext.clearMap();
-    }
 }

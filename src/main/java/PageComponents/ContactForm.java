@@ -2,11 +2,11 @@ package PageComponents;
 
 import BasePage.BasePage;
 import org.openqa.selenium.By;
-import utilities.Alert;
-import utilities.LogsUtil;
-import utilities.Waits;
-import static utilities.SimpleElementActions.click;
-import static utilities.SimpleElementActions.set;
+import utilities.selenium.helperClasses.Alert;
+import utilities.common.LogsUtil;
+import utilities.selenium.helperClasses.Waits;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
+import static utilities.selenium.helperClasses.SimpleElementActions.set;
 
 public class ContactForm<T> extends BasePage<T> {
 
@@ -27,19 +27,19 @@ public class ContactForm<T> extends BasePage<T> {
 
     public void enterEmail(String email) {
         LogsUtil.info("Entering email: " + email);
-        set(emailField, getDriver(),email);
+        set(getDriver(), emailField, email);
         LogsUtil.info("Email entered successfully.");
     }
 
     public void enterName(String name) {
         LogsUtil.info("Entering name: " + name);
-        set(nameField, getDriver(),name);
+        set(getDriver(), nameField, name);
         LogsUtil.info("Name entered successfully.");
     }
 
     public void enterMessage(String message) {
         LogsUtil.info("Entering message: " + message);
-        set(messageField, getDriver() ,message);
+        set(getDriver(), messageField, message);
         LogsUtil.info("Message entered successfully.");
     }
 
@@ -53,14 +53,14 @@ public class ContactForm<T> extends BasePage<T> {
 
     public T clickCloseBtn() {
         LogsUtil.info("Clicking the 'Close' button on the ContactForm modal.");
-        click(closeBtn, getDriver());
+        click(getDriver(), closeBtn);
         LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
 
     public T clickSendMessageBtn() {
         LogsUtil.info("Clicking the 'Send Message' button on the ContactForm modal.");
-        click(sendMessageBtn, getDriver());
+        click(getDriver(), sendMessageBtn);
         LogsUtil.info("'Send Message' button clicked successfully.");
         return currentPage;
     }

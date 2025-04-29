@@ -2,12 +2,12 @@ package PageComponents;
 
 import BasePage.BasePage;
 import org.openqa.selenium.By;
-import utilities.LogsUtil;
-import utilities.Waits;
+import utilities.common.LogsUtil;
+import utilities.selenium.helperClasses.Waits;
 
-import static utilities.SimpleElementActions.click;
-import static utilities.SimpleElementActions.set;
-import static utilities.SimpleElementActions.find;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
+import static utilities.selenium.helperClasses.SimpleElementActions.set;
+import static utilities.selenium.helperClasses.SimpleElementActions.find;
 
 public class OrderForm<T> extends BasePage<T> {
     private final T currentPage;
@@ -33,50 +33,50 @@ public class OrderForm<T> extends BasePage<T> {
 
     public void enterName(String name) {
         LogsUtil.info("Entering name: " + name);
-        set(nameField, getDriver(), name);
+        set(getDriver(), nameField, name);
         LogsUtil.info("Name entered successfully.");
     }
 
     public void enterCountry(String country) {
         LogsUtil.info("Entering country: " + country);
-        set(countryField, getDriver(), country);
+        set(getDriver(), countryField, country);
         LogsUtil.info("Country entered successfully.");
     }
 
     public void enterCity(String city) {
         LogsUtil.info("Entering city: " + city);
-        set(cityField, getDriver(), city);
+        set(getDriver(), cityField, city);
         LogsUtil.info("City entered successfully.");
     }
 
     public void enterCard(String card) {
         LogsUtil.info("Entering card number: " + card);
-        set(cardField, getDriver(), card);
+        set(getDriver(), cardField, card);
         LogsUtil.info("Card number entered successfully.");
     }
 
     public void enterMonth(String month) {
         LogsUtil.info("Entering month: " + month);
-        set(monthField, getDriver(), month);
+        set(getDriver(), monthField, month);
         LogsUtil.info("Month entered successfully.");
     }
 
     public void enterYear(String year) {
         LogsUtil.info("Entering year: " + year);
-        set(yearField, getDriver(), year);
+        set(getDriver(), yearField, year);
         LogsUtil.info("Year entered successfully.");
     }
 
     public T clickClose() {
         LogsUtil.info("Clicking the 'Close' button on the OrderForm modal.");
-        click(closeBtn, getDriver());
+        click(getDriver(), closeBtn);
         LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
 
     public void clickPurchase() {
         LogsUtil.info("Clicking the 'Purchase' button on the OrderForm modal.");
-        click(purchaseBtn, getDriver());
+        click(getDriver(), purchaseBtn);
         LogsUtil.info("'Purchase' button clicked successfully.");
     }
 
@@ -84,7 +84,7 @@ public class OrderForm<T> extends BasePage<T> {
         LogsUtil.info("Waiting for the 'OK' button to be visible.");
         Waits.waitForElementVisibility(getDriver(), okBtn, 1);
         LogsUtil.info("Clicking the 'OK' button.");
-        click(okBtn, getDriver());
+        click(getDriver(), okBtn);
         LogsUtil.info("'OK' button clicked successfully.");
     }
 

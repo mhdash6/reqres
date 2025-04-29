@@ -2,10 +2,10 @@ package PageComponents;
 
 import BasePage.BasePage;
 import org.openqa.selenium.By;
-import utilities.Waits;
-import utilities.LogsUtil;
-import static utilities.Gets.getInnerText;
-import static utilities.SimpleElementActions.click;
+import utilities.selenium.helperClasses.Waits;
+import utilities.common.LogsUtil;
+import static utilities.selenium.helperClasses.Gets.getInnerText;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
 
 public class AboutUs<T> extends BasePage<T> {
 
@@ -24,7 +24,7 @@ public class AboutUs<T> extends BasePage<T> {
 
     public String getErrorMsg() {
         LogsUtil.info("Fetching error message from the AboutUs modal.");
-        String message = getInnerText(errorMsg, getDriver());
+        String message = getInnerText(getDriver(),errorMsg);
         LogsUtil.info("Error message fetched: " + message);
         return message;
     }
@@ -32,7 +32,7 @@ public class AboutUs<T> extends BasePage<T> {
     public T clickClose() {
         LogsUtil.info("Clicking the 'Close' button on the AboutUs modal.");
         Waits.waitForElementToBeClickable(getDriver(), closeBtn, 2);
-        click(closeBtn, getDriver());
+        click(getDriver(), closeBtn);
         LogsUtil.info("'Close' button clicked successfully.");
         return currentPage;
     }
@@ -40,7 +40,7 @@ public class AboutUs<T> extends BasePage<T> {
     public void clickExit() {
         LogsUtil.info("Clicking the 'Exit' button on the AboutUs modal.");
         Waits.waitForElementToBeClickable(getDriver(), exitBtn, 2);
-        click(exitBtn, getDriver());
+        click(getDriver(), exitBtn);
         LogsUtil.info("'Exit' button clicked successfully.");
     }
 }

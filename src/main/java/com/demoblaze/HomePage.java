@@ -1,26 +1,20 @@
 package com.demoblaze;
-import static utilities.SimpleElementActions.click;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
 import BasePage.BasePage;
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
-import utilities.LogsUtil;
-import utilities.Waits;
+import utilities.common.LogsUtil;
+import utilities.common.PropertiesUtils;
+import utilities.selenium.helperClasses.Waits;
 
 public class HomePage extends BasePage<HomePage> {
 
     public NavBar<HomePage> navBar;
-
-    private final By productList = By.id("tbodyid");
-
-    private static final String URL = "https://www.demoblaze.com/";
-
-    public HomePage() {
-        navBar = new NavBar<>(this);
-    }
-
+    private final By productList = By.id("tbodyid");;
     public void loadHomePage() {
-        LogsUtil.info("Loading the home page: " + URL);
-        getDriver().get(URL);
+        String url=  PropertiesUtils.getProperty("url");
+        LogsUtil.info("Loading the home page: " + url);
+        getDriver().get(url);
         LogsUtil.info("Home page loaded successfully.");
     }
 
@@ -28,7 +22,7 @@ public class HomePage extends BasePage<HomePage> {
         LogsUtil.info("Adding product '" + productName + "' to the cart.");
         By productLocator = By.linkText(productName);
         Waits.waitForElementVisibility(getDriver(), productLocator, 2);
-        click(productLocator,getDriver());
+        click(getDriver(), productLocator);
         LogsUtil.info("Product '" + productName + "' clicked. Navigating to Item Page.");
         return new ItemPage();
     }

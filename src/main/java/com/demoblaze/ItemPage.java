@@ -1,13 +1,13 @@
 package com.demoblaze;
 
-import static utilities.SimpleElementActions.click;
-import static utilities.SimpleElementActions.find;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
+import static utilities.selenium.helperClasses.SimpleElementActions.find;
 import BasePage.BasePage;
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
-import utilities.Alert;
-import utilities.LogsUtil;
-import utilities.Waits;
+import utilities.selenium.helperClasses.Alert;
+import utilities.common.LogsUtil;
+import utilities.selenium.helperClasses.Waits;
 
 public class ItemPage extends BasePage<ItemPage> {
 
@@ -32,7 +32,7 @@ public class ItemPage extends BasePage<ItemPage> {
         LogsUtil.info("Waiting for the 'Add to Cart' button for product '" + productName + "' to be visible.");
         Waits.waitForElementVisibility(getDriver(), addToCartButtonLocator, 2);
         LogsUtil.info("Clicking the 'Add to Cart' button for product '" + productName + "'.");
-        click(addToCartButtonLocator, getDriver());
+        click(getDriver(), addToCartButtonLocator);
         LogsUtil.info("'Add to Cart' button clicked successfully for product '" + productName + "'.");
     }
 

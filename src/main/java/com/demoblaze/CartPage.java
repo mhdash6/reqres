@@ -1,16 +1,16 @@
 package com.demoblaze;
-import static utilities.SimpleElementActions.click;
-import static utilities.SimpleElementActions.findAll;
-import static utilities.Tables.getHeadersNames;
-import static utilities.Tables.getTableRows;
+import static utilities.selenium.helperClasses.SimpleElementActions.click;
+import static utilities.selenium.helperClasses.SimpleElementActions.findAll;
+import static utilities.selenium.helperClasses.Tables.getHeadersNames;
+import static utilities.selenium.helperClasses.Tables.getTableRows;
 import BasePage.BasePage;
 import PageComponents.NavBar;
 import PageComponents.OrderForm;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import utilities.DataUtil;
-import utilities.LogsUtil;
-import utilities.Waits;
+import utilities.common.DataUtils;
+import utilities.common.LogsUtil;
+import utilities.selenium.helperClasses.Waits;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class CartPage extends BasePage<CartPage> {
 
-    public NavBar<CartPage> navBar;
+    public static NavBar<CartPage> navBar ;
 
     private final By placeOrderBtn = By.cssSelector(".btn.btn-success");
     private final By tableHeaders = By.cssSelector("thead th");
@@ -61,7 +61,7 @@ public class CartPage extends BasePage<CartPage> {
             return;
         }
 
-        String[][] rows = getTableRows(tableRows, tableCell, getDriver());
+        String[][] rows = getTableRows(getDriver(), tableRows, tableCell);
         for (String[] row : rows) {
             for (String cell : row) {
                 System.out.print(cell + " ");
@@ -74,7 +74,7 @@ public class CartPage extends BasePage<CartPage> {
     public OrderForm<CartPage> clickPlaceOrder() {
         LogsUtil.info("Clicking the 'Place Order' button.");
         Waits.waitForElementVisibility(getDriver(), placeOrderBtn, 2);
-        click(placeOrderBtn, getDriver());
+        click(getDriver(), placeOrderBtn);
         LogsUtil.info("'Place Order' button clicked successfully.");
         return new OrderForm<>(this);
     }
@@ -122,7 +122,7 @@ public class CartPage extends BasePage<CartPage> {
         }
 
         String[] headers = getHeadersNames(getDriver(), tableHeaders);
-        String[][] rows = getTableRows(tableRows, tableCell, getDriver());
+        String[][] rows = getTableRows(getDriver(), tableRows, tableCell);
 
         List<Map<String, String>> tableData = new ArrayList<>();
 
@@ -134,7 +134,7 @@ public class CartPage extends BasePage<CartPage> {
             tableData.add(rowMap);
         }
 
-        DataUtil.writeJson(filePath, tableData);
+        DataUtils.writeJson(filePath, tableData);
         LogsUtil.info("Table data successfully exported to JSON file: " + filePath);
     }
 }
