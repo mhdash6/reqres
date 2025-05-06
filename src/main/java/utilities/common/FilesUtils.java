@@ -1,6 +1,6 @@
 package utilities.common;
 
-import io.qameta.allure.Step;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class FilesUtils {
 
     public static Path getLatestFile(Path folder) {
         if (!Files.isDirectory(folder)) {
-            LogsUtil.warn("Directory not found: " + folder);
+            LogsUtils.warn("Directory not found: " + folder);
             return null;
         }
         Path latest = null;
@@ -30,18 +30,18 @@ public class FilesUtils {
                             latest = file;
                         }
                     } catch (IOException e) {
-                        LogsUtil.error("Cannot read last-modified time of " + file + ": " + e.getMessage());
+                        LogsUtils.error("Cannot read last-modified time of " + file + ": " + e.getMessage());
                     }
                 }
             }
         } catch (IOException e) {
-            LogsUtil.error("Failed to open directory " + folder + ": " + e.getMessage());
+            LogsUtils.error("Failed to open directory " + folder + ": " + e.getMessage());
             return null;
         }
         if (latest != null) {
-            LogsUtil.info("Found latest file in " + folder + ": " + latest);
+            LogsUtils.info("Found latest file in " + folder + ": " + latest);
         } else {
-            LogsUtil.warn("No  files found in " + folder);
+            LogsUtils.warn("No  files found in " + folder);
         }
         return latest;
     }
@@ -51,7 +51,7 @@ public class FilesUtils {
 
     public static List<Path> getLatestFiles(Path folder, long thresholdMillis) {
         if (!Files.isDirectory(folder)) {
-            LogsUtil.warn("Directory not found: " + folder);
+            LogsUtils.warn("Directory not found: " + folder);
             return Collections.emptyList();
         }
         List<Path> result = new ArrayList<>();
@@ -66,7 +66,7 @@ public class FilesUtils {
                 }
             }
         } catch (IOException e) {
-            LogsUtil.error("Failed to read directory: " + folder + ". Error: " + e.getMessage());
+            LogsUtils.error("Failed to read directory: " + folder + ". Error: " + e.getMessage());
             return Collections.emptyList();
         }
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, Files::isRegularFile)) {
@@ -78,18 +78,18 @@ public class FilesUtils {
                 }
             }
         } catch (IOException e) {
-            LogsUtil.error("Failed to read directory: " + folder + ". Error: " + e.getMessage());
+            LogsUtils.error("Failed to read directory: " + folder + ". Error: " + e.getMessage());
             return Collections.emptyList();
         }
 
-        LogsUtil.info("Found " + result.size() + " files within " + thresholdMillis + "ms threshold in " + folder);
+        LogsUtils.info("Found " + result.size() + " files within " + thresholdMillis + "ms threshold in " + folder);
         return result;
     }
 
 
 
     public static void deleteFileContent(File folder) {
-        LogsUtil.info("Deleting files or folders in: " + folder.getAbsolutePath());
+        LogsUtils.info("Deleting files or folders in: " + folder.getAbsolutePath());
         File[] files = folder.listFiles();
         if (files != null) {
             for (File file : files) {
@@ -97,7 +97,7 @@ public class FilesUtils {
                     deleteFileContent(file);
                 }
                 if (!file.delete()) {
-                    LogsUtil.warn("Failed to delete file: " + file.getAbsolutePath());
+                    LogsUtils.warn("Failed to delete file: " + file.getAbsolutePath());
                 }
             }
         }
@@ -107,15 +107,15 @@ public class FilesUtils {
 
     public static Path renameFile(Path source, Path target) {
         if (source == null || target == null) {
-            LogsUtil.warn("Source or target or both path are null: " + source + " -> " + target);
+            LogsUtils.warn("Source or target or both path are null: " + source + " -> " + target);
             return null;
         }
         try {
             Path renamedPath = Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-            LogsUtil.info("File renamed successfully from " + source + " to " + target);
+            LogsUtils.info("File renamed successfully from " + source + " to " + target);
             return renamedPath;
         } catch (IOException e) {
-            LogsUtil.warn("Failed to rename file from " + source + " to " + target + ": " + e.getMessage());
+            LogsUtils.warn("Failed to rename file from " + source + " to " + target + ": " + e.getMessage());
             return null;
         }
     }
@@ -123,19 +123,19 @@ public class FilesUtils {
     
     public static Path createDirectoryIfNeeded(Path dir) {
         if (dir == null) {
-            LogsUtil.warn("Directory path is null");
+            LogsUtils.warn("Directory path is null");
             return null;
         }
         if (Files.exists(dir)) {
-            LogsUtil.info("Directory already exists: " + dir);
+            LogsUtils.info("Directory already exists: " + dir);
             return dir;
         }
         try {
             Path createdDir = Files.createDirectories(dir);
-            LogsUtil.info("Directory created successfully: " + createdDir);
+            LogsUtils.info("Directory created successfully: " + createdDir);
             return createdDir;
         } catch (IOException e) {
-            LogsUtil.warn("Failed to create directory: " + dir + " — " + e.getMessage());
+            LogsUtils.warn("Failed to create directory: " + dir + " — " + e.getMessage());
             return null;
         }
     }

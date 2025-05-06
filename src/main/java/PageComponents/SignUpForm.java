@@ -1,52 +1,67 @@
 package PageComponents;
 
-import BasePage.BasePage;
+
 import org.openqa.selenium.By;
-import utilities.common.LogsUtil;
-import utilities.selenium.helperClasses.Waits;
+import utilities.common.LogsUtils;
+import utilities.uiElements.Button;
+import utilities.uiElements.Container;
+import utilities.uiElements.TextInputField;
 
-import static utilities.selenium.helperClasses.SimpleElementActions.click;
-import static utilities.selenium.helperClasses.SimpleElementActions.set;
 
-public class SignUpForm<T> extends BasePage<T> {
-    private final T currentPage;
 
-    private final By signUpBtn = By.cssSelector("#signInModal .modal-footer button.btn-primary");
-    private final By closeBtn = By.cssSelector("#signInModal .modal-footer button.btn-secondary");
-    private final By userNameField = By.id("sign-username");
-    private final By passwordField = By.id("sign-password");
-    private final By body = By.id("signInModal");
+public class SignUpForm<T>  {
 
-    public SignUpForm(T currentPage) {
+    private final Class <T> currentPage;
+    private final Button signUpBtn = new Button(By.cssSelector("#signInModal .modal-footer button.btn-primary"));
+    private final Button closeBtn = new Button(By.cssSelector("#signInModal .modal-footer button.btn-secondary"));
+    private final TextInputField userNameField = new TextInputField( By.id("sign-username"));
+    private final TextInputField passwordField = new TextInputField(By.id("sign-password"));
+    private final Container body = new Container(By.id("signInModal"));
+
+    public SignUpForm(Class<T> currentPage) {
         this.currentPage = currentPage;
-        LogsUtil.info("Initializing SignUpForm component for the current page.");
-        Waits.waitForElementVisibility(getDriver(), body, 1);
-        LogsUtil.info("SignUpForm modal is visible.");
+        if(isDisplayed()){
+            LogsUtils.info("ContactForm modal is visible.");
+        }
+        else{
+            LogsUtils.warn("ContactForm modal is not visible.");
+        }
+    }
+    public boolean isDisplayed() {
+        boolean isDisplayed = body.isDisplayed();
+        LogsUtils.info("AboutUs modal is displayed: " + isDisplayed);
+        return isDisplayed;
     }
 
     public void enterUserName(String username) {
-        LogsUtil.info("Entering username: " + username);
-        set(getDriver(), userNameField, username);
-        LogsUtil.info("Username entered successfully.");
+        userNameField.write(username);
+        LogsUtils.info("Username entered successfully.");
     }
 
     public void enterPassword(String password) {
-        LogsUtil.info("Entering password.");
-        set(getDriver(), passwordField, password);
-        LogsUtil.info("Password entered successfully.");
+        passwordField.write(password);
+        LogsUtils.info("Password entered successfully.");
     }
 
     public T clickSignUp() {
-        LogsUtil.info("Clicking the 'Sign Up' button.");
-        click(getDriver(), signUpBtn);
-        LogsUtil.info("'Sign Up' button clicked successfully.");
-        return currentPage;
+        signUpBtn.click();
+        LogsUtils.info("'Sign Up' button clicked successfully.");
+        try {
+            return currentPage.getDeclaredConstructor().newInstance();
+        }catch (Exception e){
+            LogsUtils.error("Couldn't create new instance of the current page class. Error: ", e.getMessage());
+            return null;
+        }
     }
 
     public T clickClose() {
-        LogsUtil.info("Clicking the 'Close' button on the SignUpForm modal.");
-        click(getDriver(), closeBtn);
-        LogsUtil.info("'Close' button clicked successfully.");
-        return currentPage;
+        closeBtn.click();
+        LogsUtils.info("'Close' button clicked successfully.");
+        try {
+            return currentPage.getDeclaredConstructor().newInstance();
+        }catch (Exception e){
+            LogsUtils.error("Couldn't create new instance of the current page class. Error: ", e.getMessage());
+            return null;
+        }
     }
 }

@@ -13,35 +13,45 @@ public class PropertiesUtils {
     private static final Properties properties= new Properties() ;
 
     public static void loadProperties() {
-        Properties prop;
-        try(DirectoryStream<Path> ds = Files.newDirectoryStream(Path.of(PROPERTIES_PATH))){
-            boolean env=false;
-            boolean test=false;
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(Path.of(PROPERTIES_PATH))) {
+            boolean env = false, test = false, secret = false;
+
             for (Path path : ds) {
-                if(env && test){
-                    break;
-                }
+                if (env && test && secret) break;
+
                 try (InputStream inputStream = Files.newInputStream(path)) {
-                    prop= new Properties();
+                    Properties prop = new Properties();
                     prop.load(inputStream);
+
                     if ("true".equalsIgnoreCase(prop.getProperty("enabled"))) {
-                        if (path.getFileName().toString().contains("env") && !env) {
+                        String fileName = path.getFileName().toString().toLowerCase();
+
+                        if (fileName.contains("env") && !env) {
                             properties.putAll(prop);
                             env = true;
-                        } else if (path.getFileName().toString().contains("test") && !test) {
+                           LogsUtils.info("Loading environment properties from: " + path);
+                        } else if (fileName.contains("test") && !test) {
                             properties.putAll(prop);
                             test = true;
+                           LogsUtils.info("Loading test properties from: " + path);
+
+                        } else if (fileName.contains("secret") && !secret) {
+                            properties.putAll(prop);
+                            secret = true;
+                           LogsUtils.info("Loading secret properties from: " + path);
                         }
                     }
+                } catch (Exception e) {
+                    LogsUtils.error("Failed to read or parse file: " + path + " — " + e.getMessage());
                 }
             }
-            LogsUtil.info("Properties loaded successfully");
-        }
-        catch(Exception e){
-            LogsUtil.error("Failed to load properties file: " + e.getMessage());
-        }
 
+            LogsUtils.info("Properties loaded successfully ");
+        } catch (Exception e) {
+            LogsUtils.error("Failed to load properties from directory: " + PROPERTIES_PATH + " — " + e.getMessage());
+        }
     }
+
 
 
     public static String getProperty(String key){
@@ -50,7 +60,7 @@ public class PropertiesUtils {
         }
         String value= properties.getProperty(key);
         if(value==null){
-            LogsUtil.error("Property not found: " + key);
+            LogsUtils.error("Property not found: " + key);
         }
         return value;
     }

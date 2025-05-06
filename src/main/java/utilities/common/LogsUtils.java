@@ -3,11 +3,11 @@ package utilities.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public  class LogsUtil {
+public  class LogsUtils {
 
     public static final String LOG_FILE_PATH = "test_outputs/logs";
     private static final ThreadLocal<StringBuilder> threadLogs = ThreadLocal.withInitial(StringBuilder::new);
-    private LogsUtil() {
+    private LogsUtils() {
     }
 
     private static Logger logger() {

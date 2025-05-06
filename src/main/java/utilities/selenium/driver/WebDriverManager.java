@@ -3,7 +3,7 @@ package utilities.selenium.driver;
 import org.openqa.selenium.WebDriver;
 
 import io.qameta.allure.Step;
-import utilities.common.LogsUtil;
+import utilities.common.LogsUtils;
 
 public class WebDriverManager {
     private WebDriverManager() {
@@ -27,7 +27,7 @@ public class WebDriverManager {
     @Step("Closing the Driver")
     public static void closeDriver() {
 
-        LogsUtil.info("Closing the Driver");
+        LogsUtils.info("Closing the Driver");
         if (getDriver() != null) {
             getDriver().quit();
         }

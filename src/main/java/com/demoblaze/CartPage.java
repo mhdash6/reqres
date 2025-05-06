@@ -1,140 +1,185 @@
 package com.demoblaze;
-import static utilities.selenium.helperClasses.SimpleElementActions.click;
-import static utilities.selenium.helperClasses.SimpleElementActions.findAll;
+
 import static utilities.selenium.helperClasses.Tables.getHeadersNames;
-import static utilities.selenium.helperClasses.Tables.getTableRows;
-import BasePage.BasePage;
 import PageComponents.NavBar;
 import PageComponents.OrderForm;
+import org.apache.commons.io.build.AbstractOrigin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import utilities.common.DataUtils;
-import utilities.common.LogsUtil;
+import utilities.common.JsonUtils;
+import utilities.common.LogsUtils;
+import utilities.common.PropertiesUtils;
+import utilities.selenium.helperClasses.AjaxWaitUtils;
+import utilities.selenium.helperClasses.BrowserActions;
+import utilities.selenium.helperClasses.SimpleElementActions;
 import utilities.selenium.helperClasses.Waits;
+import utilities.uiElements.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CartPage extends BasePage<CartPage> {
 
-    public static NavBar<CartPage> navBar ;
 
-    private final By placeOrderBtn = By.cssSelector(".btn.btn-success");
-    private final By tableHeaders = By.cssSelector("thead th");
+public class CartPage  {
+
+
+    public static NavBar<CartPage> navBar;
+    private final Button placeOrderBtn   = new Button( By.cssSelector(".btn.btn-success"));
+    private final TextContainer total = new TextContainer(By.id("totalp"));
+    private final By tableHeaders    = By.cssSelector("thead th");
     private final By tableRows = By.cssSelector("tbody tr");
-    private final By tableCell = By.cssSelector("tbody td");
 
     public CartPage() {
-        navBar = new NavBar<>(this);
+        if (navBar == null) {
+            navBar = new NavBar<>(CartPage.class);
+        }
+    }
+    public void load() {
+        String url=  PropertiesUtils.getProperty("url")+"/cart.html";
+        BrowserActions.navigateToURL(url);
+        LogsUtils.info("Cart page loaded successfully.");
+    }
+
+    private List<TableRow> fetchRows() {
+        AjaxWaitUtils.waitForJQuery(5);
+        List<TableRow> rows = new ArrayList<>();
+        int count = SimpleElementActions.findAll(tableRows).size();
+        for (int i = 1; i <= count; i++) {
+            By rowLocator = By.cssSelector(
+                    String.format("tbody tr:nth-of-type(%d)", i)
+            );
+            rows.add(new TableRow(rowLocator));
+        }
+        LogsUtils.info("Fetched " + rows.size() + " rows.");
+        return rows;
+    }
+
+    public List<String> getItemsNames(){
+        List<String> names = new ArrayList<>() {
+        };
+        List<TableRow> rows = fetchRows();
+        for(TableRow row : rows){
+            if (row.isDisplayed()){
+                TableCell ItemNameCell = new TableCell(row.getLocator(), By.cssSelector("td:nth-of-type(2)") );
+                names.add(ItemNameCell.getText());
+            }
+        }
+        return names;
+    }
+
+    public List<String> getItemsPrices(){
+        List<String> prices = new ArrayList<>() {
+        };
+        List<TableRow> rows = fetchRows();
+        for(TableRow row : rows){
+            if (row.isDisplayed()){
+                TableCell ItemNameCell = new TableCell(row.getLocator(), By.cssSelector("td:nth-of-type(3)") );
+                prices.add(ItemNameCell.getText());
+            }
+        }
+        return prices;
     }
 
     public boolean isCartEmpty() {
-        LogsUtil.info("Checking if the cart is empty.");
-        try {
-            Waits.waitForElementVisibility(getDriver(), tableRows, 2);
-            boolean isEmpty = getDriver().findElements(tableRows).isEmpty();
-            LogsUtil.info("Cart empty status: " + isEmpty);
-            return isEmpty;
-        } catch (Exception e) {
-            LogsUtil.info("Cart empty status: " + true);
+        LogsUtils.info("Checking if the cart is empty.");
+        List<TableRow> rows = fetchRows();
+        if (rows.isEmpty()) {
+            LogsUtils.info("Cart is empty (no rows found).");
             return true;
         }
+
+        for (TableRow row : rows) {
+            if (!row.isDeleted()) {
+                LogsUtils.info("Cart not empty (found visible row: " + row.getLocator() + ").");
+                return false;
+            }
+        }
+
+        LogsUtils.info("All rows deleted; cart is empty.");
+        return true;
     }
 
     public int getItemsCount() {
-        LogsUtil.info("Getting the count of items in the cart.");
-        if (isCartEmpty()) {
-            LogsUtil.info("The cart is empty.");
-            return 0;
-        }
-        int itemCount = getDriver().findElements(tableRows).size();
-        LogsUtil.info("Number of items in the cart: " + itemCount);
-        return itemCount;
-    }
-
-    public void printItemsInCart() {
-        LogsUtil.info("Printing items in the cart.");
-        if (isCartEmpty()) {
-            LogsUtil.info("The cart is empty.");
-            System.out.println("Empty Cart");
-            return;
-        }
-
-        String[][] rows = getTableRows(getDriver(), tableRows, tableCell);
-        for (String[] row : rows) {
-            for (String cell : row) {
-                System.out.print(cell + " ");
+        LogsUtils.info("Getting item count in cart.");
+        List<TableRow> rows = fetchRows();
+        int count = 0;
+        for (TableRow row : rows) {
+            if (!row.isDeleted()) {
+                count++;
             }
-            System.out.println();
         }
-        LogsUtil.info("Items in the cart printed successfully.");
+        LogsUtils.info("Items in cart: " + count);
+        return count;
     }
 
-    public OrderForm<CartPage> clickPlaceOrder() {
-        LogsUtil.info("Clicking the 'Place Order' button.");
-        Waits.waitForElementVisibility(getDriver(), placeOrderBtn, 2);
-        click(getDriver(), placeOrderBtn);
-        LogsUtil.info("'Place Order' button clicked successfully.");
-        return new OrderForm<>(this);
+
+    public OrderForm clickPlaceOrder() {
+        LogsUtils.info("Clicking Place Order.");
+        placeOrderBtn.click();
+        return new OrderForm();
     }
 
-    public void deleteItem(String deleteThis) {
-        LogsUtil.info("Attempting to delete item '" + deleteThis + "' from the cart.");
 
-        if (isCartEmpty()) {
-            LogsUtil.warn("The cart is empty. Cannot delete item '" + deleteThis + "'.");
+    public void deleteItem(String itemName) {
+        LogsUtils.info("Deleting item '" + itemName + "'.");
+        List<TableRow> rows = fetchRows();
+        if (rows.isEmpty()) {
+            LogsUtils.warn("Cart is empty; nothing to delete.");
             return;
         }
-
-        List<WebElement> rows = findAll(getDriver(), tableRows);
-        boolean itemDeleted = false;
-
-        for (WebElement row : rows) {
-            try {
-                String itemName = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
-                if (itemName.equals(deleteThis)) {
-                    LogsUtil.info("Item '" + deleteThis + "' found in the cart. Attempting to delete it.");
-                    WebElement deleteButton = row.findElement(By.cssSelector("td a"));
-                    deleteButton.click();
-                    By rowLocator = By.xpath("//tr[td[text()='" + deleteThis + "']]");
-                    Waits.waitForElementToBeInvisible(getDriver(), rowLocator, 2);
-                    LogsUtil.info("Item '" + deleteThis + "' deleted successfully.");
-                    itemDeleted = true;
-                    break;
+        for (TableRow row : rows) {
+            if (row.isDeleted()) continue;
+            TableCell nameCell = row.getCell(By.cssSelector("td:nth-of-type(2)"));
+            if (itemName.equals(nameCell.getText())) {
+                WebElement tracker = SimpleElementActions.find(row.getLocator());
+                LogsUtils.info("Found '" + itemName + "', clicking delete.");
+                TableCell deleteCell = row.getCell(By.cssSelector("td:last-of-type"));
+                try {
+                    new Link(deleteCell.getLocator(), By.cssSelector("a")).click();
+                    Waits.waitForElementToStale(tracker, 5);
+                    AjaxWaitUtils.waitForJQuery(2);
+                    LogsUtils.info("Item deleted successfully.");
+                } catch (Exception e) {
+                    LogsUtils.error("Error deleting item: " + e.getMessage());
+                    LogsUtils.error("Deletion did not complete.");
                 }
-            } catch (Exception e) {
-                LogsUtil.error("Error while attempting to delete item '" + deleteThis + "'. Error: " + e.getMessage());
+                return;
             }
         }
 
-        if (!itemDeleted) {
-            LogsUtil.warn("Item '" + deleteThis + "' not found in the cart. Deletion could not be performed.");
-        }
+        LogsUtils.warn("Item '" + itemName + "' not found.");
+    }
+
+    public double getTotal() {
+        String price = total.getText();
+        return Double.parseDouble(price);
     }
 
 
     public void exportTableToJson(String filePath) {
-        LogsUtil.info("Exporting table data to JSON file: " + filePath);
+        LogsUtils.info("Exporting cart to JSON: " + filePath);
         if (isCartEmpty()) {
-            LogsUtil.warn("The cart is empty. No data to export.");
+            LogsUtils.warn("Cart empty; nothing to export.");
             return;
         }
+        String[] headers = getHeadersNames( tableHeaders);
+        List<Map<String, String>> data = new ArrayList<>();
 
-        String[] headers = getHeadersNames(getDriver(), tableHeaders);
-        String[][] rows = getTableRows(getDriver(), tableRows, tableCell);
-
-        List<Map<String, String>> tableData = new ArrayList<>();
-
-        for (String[] row : rows) {
+        for (TableRow row : fetchRows()) {
+            if (!row.isDisplayed()) continue;
             Map<String, String> rowMap = new HashMap<>();
-            for (int i = 0; i < headers.length; i++) {
-                rowMap.put(headers[i], i < row.length ? row[i] : "");
+            for (int col = 1; col <= headers.length; col++) {
+                TableCell cell = row.getCell(By.cssSelector(
+                        String.format("td:nth-of-type(%d)", col)
+                ));
+                rowMap.put(headers[col - 1], cell.getText());
             }
-            tableData.add(rowMap);
+            data.add(rowMap);
         }
-
-        DataUtils.writeJson(filePath, tableData);
-        LogsUtil.info("Table data successfully exported to JSON file: " + filePath);
+        JsonUtils.writeJson(filePath, data);
+        LogsUtils.info("JSON export complete.");
     }
 }
+

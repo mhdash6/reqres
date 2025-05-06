@@ -1,44 +1,49 @@
 package com.demoblaze;
 
-import static utilities.selenium.helperClasses.SimpleElementActions.click;
-import static utilities.selenium.helperClasses.SimpleElementActions.find;
-import BasePage.BasePage;
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
 import utilities.selenium.helperClasses.Alert;
-import utilities.common.LogsUtil;
-import utilities.selenium.helperClasses.Waits;
+import utilities.common.LogsUtils;
+import utilities.uiElements.Button;
+import utilities.uiElements.TextContainer;
 
-public class ItemPage extends BasePage<ItemPage> {
 
-    public NavBar<ItemPage> navBar;
-    private final By productNameLocator = By.cssSelector(".name");
-    private final By addToCartButtonLocator = By.cssSelector(".btn.btn-success.btn-lg");
+public class ItemPage  {
+
+    public static NavBar<ItemPage> navBar;
+    private final TextContainer productName = new TextContainer( By.cssSelector(".name"));
+    private final TextContainer productDescription = new TextContainer( By.cssSelector("#more-information p"));
+    private final Button addToCartButton = new Button( By.cssSelector(".btn.btn-success.btn-lg"));
+
 
     public ItemPage() {
-        navBar = new NavBar<>(this);
+        if (navBar == null) {
+            navBar = new NavBar<>(ItemPage.class);
+        }
     }
 
     private String getProductName() {
-        Waits.waitForElementVisibility(getDriver(), productNameLocator, 2);
-        LogsUtil.info("Fetching the product name.");
-        String productName = find(getDriver(), productNameLocator).getText();
-        LogsUtil.info("Product name fetched: " + productName);
-        return productName;
+        LogsUtils.info("Fetching the product name.");
+        String name  = this.productName.getText();
+        LogsUtils.info("Product name fetched: " + name);
+        return  name;
+    }
+    public String getProductDescription() {
+        LogsUtils.info("Fetching the product description.");
+        String description  = this.productDescription.getText();
+        LogsUtils.info("Product description fetched: " + description);
+        return  description;
     }
 
     public void clickAddToCart() {
-        String productName = getProductName();
-        LogsUtil.info("Waiting for the 'Add to Cart' button for product '" + productName + "' to be visible.");
-        Waits.waitForElementVisibility(getDriver(), addToCartButtonLocator, 2);
-        LogsUtil.info("Clicking the 'Add to Cart' button for product '" + productName + "'.");
-        click(getDriver(), addToCartButtonLocator);
-        LogsUtil.info("'Add to Cart' button clicked successfully for product '" + productName + "'.");
+        LogsUtils.info("Clicking the 'Add to Cart' button for the product.");
+        addToCartButton.click();
     }
 
     public void acceptAlert() {
-        LogsUtil.info("Accepting the alert for the product.");
-        Alert.clickOK(getDriver());
-        LogsUtil.info("Alert accepted successfully.");
+        LogsUtils.info("Accepting the alert for the product.");
+        Alert.clickOK();
+        LogsUtils.info("Alert accepted successfully.");
     }
+
 }

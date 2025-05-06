@@ -25,21 +25,21 @@ public class TerminalUtils {
                 runningProcesses.add(process);
                 success=true;
             }
-            LogsUtil.info("Command executed: " + String.join(" ", command));
+            LogsUtils.info("Command executed: " + String.join(" ", command));
             return success;
         } catch (Exception e) {
-            LogsUtil.error("Failed to execute command: " + String.join(" ", command) + ". Error: " + e.getMessage());
+            LogsUtils.error("Failed to execute command: " + String.join(" ", command) + ". Error: " + e.getMessage());
             return false;
         }
     }
 
 
     public static void killAllRunningProcesses() {
-        LogsUtil.info("Killing all running processes.");
+        LogsUtils.info("Killing all running processes.");
         for (Process process : runningProcesses) {
             process.destroy();
         }
         runningProcesses.clear();
-        LogsUtil.info("All running processes killed successfully.");
+        LogsUtils.info("All running processes killed successfully.");
     }
 }

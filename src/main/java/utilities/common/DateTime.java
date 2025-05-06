@@ -1,12 +1,9 @@
 package utilities.common;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateTime {
-
-
 
     public static String getDate(String format) {
         Date date = new Date();

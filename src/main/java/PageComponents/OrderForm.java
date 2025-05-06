@@ -1,106 +1,136 @@
 package PageComponents;
 
-import BasePage.BasePage;
+
+import com.demoblaze.CartPage;
 import org.openqa.selenium.By;
-import utilities.common.LogsUtil;
-import utilities.selenium.helperClasses.Waits;
+import utilities.common.LogsUtils;
 
-import static utilities.selenium.helperClasses.SimpleElementActions.click;
-import static utilities.selenium.helperClasses.SimpleElementActions.set;
-import static utilities.selenium.helperClasses.SimpleElementActions.find;
+import utilities.selenium.helperClasses.AjaxWaitUtils;
+import utilities.selenium.helperClasses.Alert;
+import utilities.uiElements.Button;
+import utilities.uiElements.Container;
+import utilities.uiElements.TextContainer;
+import utilities.uiElements.TextInputField;
 
-public class OrderForm<T> extends BasePage<T> {
-    private final T currentPage;
 
-    private final By nameField = By.id("name");
-    private final By countryField = By.id("country");
-    private final By cityField = By.id("city");
-    private final By cardField = By.id("card");
-    private final By monthField = By.id("month");
-    private final By yearField = By.id("year");
-    private final By purchaseBtn = By.cssSelector("#orderModal .btn.btn-primary");
-    private final By closeBtn = By.cssSelector("#orderModal .btn.btn-secondary");
-    private final By body = By.id("orderModal");
-    private final By okBtn = By.cssSelector(".confirm.btn.btn-lg.btn-primary");
-    public final By successMsg = By.className("sweet-alert");
 
-    public OrderForm(T currentPage) {
-        this.currentPage = currentPage;
-        LogsUtil.info("Initializing OrderForm component for the current page.");
-        Waits.waitForElementVisibility(getDriver(), body, 2);
-        LogsUtil.info("OrderForm modal is visible.");
+public class OrderForm{
+
+
+    private final TextInputField nameField = new TextInputField(By.id("name"));
+    private final TextInputField countryField = new TextInputField(By.id("country"));
+    private final TextInputField cityField = new TextInputField(By.id("city"));
+    private final TextInputField cardField = new TextInputField(By.id("card"));
+    private final TextInputField monthField = new TextInputField(By.id("month"));
+    private final TextInputField yearField = new TextInputField(By.id("year"));
+    private final Button purchaseBtn = new Button(By.cssSelector("#orderModal .btn.btn-primary"));
+    private final Button closeBtn = new Button(By.cssSelector("#orderModal .btn.btn-secondary"));
+    private final Button okBtn = new Button(By.cssSelector(".confirm.btn.btn-lg.btn-primary"));
+    private final Container body = new Container(By.id("orderModal"));
+    private final TextContainer successMsg = new TextContainer(By.className("sweet-alert"));
+    private final TextContainer transactionDetails =  new TextContainer(By.className("lead"));
+
+    public OrderForm() {
+        if(isDisplayed()){
+            LogsUtils.info("ContactForm modal is visible.");
+        }
+        else{
+            LogsUtils.warn("ContactForm modal is not visible.");
+        }
     }
 
+    public boolean isDisplayed() {
+        boolean isDisplayed = body.isDisplayed();
+        LogsUtils.info("AboutUs modal is displayed: " + isDisplayed);
+        return isDisplayed;
+    }
+
+
     public void enterName(String name) {
-        LogsUtil.info("Entering name: " + name);
-        set(getDriver(), nameField, name);
-        LogsUtil.info("Name entered successfully.");
+        nameField.write(name);
+        LogsUtils.info("Name entered successfully.");
     }
 
     public void enterCountry(String country) {
-        LogsUtil.info("Entering country: " + country);
-        set(getDriver(), countryField, country);
-        LogsUtil.info("Country entered successfully.");
+        countryField.write(country);
+        LogsUtils.info("Country entered successfully.");
     }
 
     public void enterCity(String city) {
-        LogsUtil.info("Entering city: " + city);
-        set(getDriver(), cityField, city);
-        LogsUtil.info("City entered successfully.");
+        cityField.write(city);
+        LogsUtils.info("City entered successfully.");
     }
 
     public void enterCard(String card) {
-        LogsUtil.info("Entering card number: " + card);
-        set(getDriver(), cardField, card);
-        LogsUtil.info("Card number entered successfully.");
+        cardField.write(card);
+        LogsUtils.info("Card number entered successfully.");
     }
 
     public void enterMonth(String month) {
-        LogsUtil.info("Entering month: " + month);
-        set(getDriver(), monthField, month);
-        LogsUtil.info("Month entered successfully.");
+        monthField.write(month);
+        LogsUtils.info("Month entered successfully.");
     }
 
     public void enterYear(String year) {
-        LogsUtil.info("Entering year: " + year);
-        set(getDriver(), yearField, year);
-        LogsUtil.info("Year entered successfully.");
+        yearField.write(year);
+        LogsUtils.info("Year entered successfully.");
     }
 
-    public T clickClose() {
-        LogsUtil.info("Clicking the 'Close' button on the OrderForm modal.");
-        click(getDriver(), closeBtn);
-        LogsUtil.info("'Close' button clicked successfully.");
-        return currentPage;
+    public CartPage clickClose() {
+        closeBtn.click();
+        LogsUtils.info("'Close' button clicked successfully.");
+        return new CartPage();
     }
 
     public void clickPurchase() {
-        LogsUtil.info("Clicking the 'Purchase' button on the OrderForm modal.");
-        click(getDriver(), purchaseBtn);
-        LogsUtil.info("'Purchase' button clicked successfully.");
+        purchaseBtn.click();
+        LogsUtils.info("'Purchase' button clicked successfully.");
     }
 
     public void clickOk() {
-        LogsUtil.info("Waiting for the 'OK' button to be visible.");
-        Waits.waitForElementVisibility(getDriver(), okBtn, 1);
-        LogsUtil.info("Clicking the 'OK' button.");
-        click(getDriver(), okBtn);
-        LogsUtil.info("'OK' button clicked successfully.");
+        AjaxWaitUtils.waitForJQuery(2);
+        okBtn.click();
+        LogsUtils.info("'OK' button clicked successfully.");
     }
 
     public boolean isSuccessful() {
-        LogsUtil.info("Checking if the success message is displayed.");
-        Waits.waitForElementVisibility(getDriver(), successMsg, 3);
-        boolean isDisplayed = find(getDriver(), successMsg).isDisplayed();
-        LogsUtil.info("Success message displayed: " + isDisplayed);
+        boolean isDisplayed = successMsg.isDisplayed() ;
+        LogsUtils.info("Success message displayed: " + isDisplayed);
         return isDisplayed;
     }
 
     public String getSuccessMessage() {
-        LogsUtil.info("Fetching the success message.");
-        Waits.waitForElementVisibility(getDriver(), successMsg, 3);
-        String message = find(getDriver(), successMsg).getText();
-        LogsUtil.info("Success message fetched: " + message);
+        String message = successMsg.getText();
+        LogsUtils.info("Success message fetched: " + message);
         return message;
+    }
+
+    public String getErrorMsg(){
+      return Alert.getAlertMessage();
+    }
+
+    public boolean IsCorrectErrorMsgDisplayed(){
+        return "Please fill out Name and Creditcard.".equals(getErrorMsg());
+    }
+
+    public void acceptAlert(){
+        Alert.clickOK();
+    }
+
+    public void fillOrderForm(String name, String country, String city, String card, String month, String year) {
+        enterName(name);
+        enterCountry(country);
+        enterCity(city);
+        enterCard(card);
+        enterMonth(month);
+        enterYear(year);
+        LogsUtils.info("Order form filled successfully.");
+    }
+    public Double getAmount() {
+     String text = transactionDetails.getText();
+        String total = text.split("Amount:")[1]
+                .split("USD")[0]
+                .trim();
+        return Double.parseDouble(total);
     }
 }

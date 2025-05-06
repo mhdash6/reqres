@@ -1,71 +1,82 @@
 package utilities.selenium.helperClasses;
 
-import java.time.Duration;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import io.qameta.allure.Step;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.common.LogsUtils;
+import utilities.selenium.driver.WebDriverManager;
 
-public class AjaxWaitUtils {
+import java.time.Duration;
 
-    @Step("Wait until jQuery AJAX calls complete within {timeoutSeconds} seconds")
-    public static void waitUntilAjaxViaJQuery(WebDriver webDriver, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(timeoutSeconds));
+public  class AjaxWaitUtils {
+
+    private AjaxWaitUtils() {
+    }
+
+    @Step("Wait for JQuery requests to complete")
+    public static void waitForJQuery( int timeoutSeconds) {
+        WebDriverWait wait = new WebDriverWait(WebDriverManager.getDriver(), Duration.ofSeconds(timeoutSeconds));
+        wait.pollingEvery(Duration.ofMillis(200));
+        wait.until((ExpectedCondition<Boolean>) wd -> {
+            JavascriptExecutor js = (JavascriptExecutor) wd;
+            return (Boolean) js.executeScript(
+                    "return (window.jQuery ? jQuery.active === 0 : true);"
+            );
+        });
+        LogsUtils.info("JQuery requests completed");
+    }
+
+    @Step("Inject tracking for fetch API calls")
+    public static void injectFetchTracking() {
         String script =
-                "var seleniumCallback = arguments[arguments.length - 1];" +
-                        "var originalJqueryAjax = window.jQuery.ajax;" +
-                        "window.jQuery.ajax = function() {" +
-                        "  var jqXhr = originalJqueryAjax.apply(this, arguments);" +
-                        "  jqXhr.always(function() { seleniumCallback(true); });" +
-                        "  return jqXhr;" +
-                        "};";
-        ((JavascriptExecutor) webDriver).executeAsyncScript(script);
+                "if (typeof window.fetch === 'function' && !window._seleniumFetchTracking) {" +
+                        "  window._seleniumFetchTracking = true;" +
+                        "  window._fetchInProgress = 0;" +
+                        "  const origFetch = window.fetch;" +
+                        "  window.fetch = function() {" +
+                        "    window._fetchInProgress++;" +
+                        "    return origFetch.apply(this, arguments).finally(() => window._fetchInProgress--);" +
+                        "  };" +
+                        "}";
+        ((JavascriptExecutor) WebDriverManager.getDriver()).executeScript(script);
+        LogsUtils.info("Fetch API tracking injected successfully.");
     }
 
-    @Step("Wait until fetch API calls complete within {timeoutSeconds} seconds")
-    public static void waitUntilAjaxViaFetch(WebDriver webDriver, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(timeoutSeconds));
+    @Step("Inject tracking for XHR calls")
+    public static void injectXhrTracking() {
         String script =
-                "var seleniumCallback = arguments[arguments.length - 1];" +
-                        "var originalFetch = window.fetch;" +
-                        "window.fetch = function() {" +
-                        "  var fetchPromise = originalFetch.apply(this, arguments);" +
-                        "  fetchPromise.finally(function() { seleniumCallback(true); });" +
-                        "  return fetchPromise;" +
-                        "};";
-        ((JavascriptExecutor) webDriver).executeAsyncScript(script);
+                "if (typeof XMLHttpRequest !== 'undefined' && !window._seleniumXhrTracking) {" +
+                        "  window._seleniumXhrTracking = true;" +
+                        "  window._xhrInProgress = 0;" +
+                        "  const origSend = XMLHttpRequest.prototype.send;" +
+                        "  XMLHttpRequest.prototype.send = function() {" +
+                        "    window._xhrInProgress++;" +
+                        "    this.addEventListener('loadend', () => window._xhrInProgress--);" +
+                        "    origSend.apply(this, arguments);" +
+                        "  };" +
+                        "}";
+        ((JavascriptExecutor) WebDriverManager.getDriver()).executeScript(script);
+        LogsUtils.info("XHR API tracking injected successfully.");
     }
 
-    @Step("Wait until native XHR calls complete within {timeoutSeconds} seconds")
-    public static void waitUntilAjaxViaXhr(WebDriver webDriver, int timeoutSeconds) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(timeoutSeconds));
-        String script =
-                "var seleniumCallback = arguments[arguments.length - 1];" +
-                        "var proto = window.XMLHttpRequest.prototype;" +
-                        "var originalOpen = proto.open;" +
-                        "proto.open = function() {" +
-                        "  this.addEventListener('loadend', function() { seleniumCallback(true); });" +
-                        "  originalOpen.apply(this, arguments);" +
-                        "};";
-        ((JavascriptExecutor) webDriver).executeAsyncScript(script);
+    @Step("Wait for fetch requests to complete")
+    public static void waitForFetchCompletion( int timeoutSeconds) {
+        new WebDriverWait(WebDriverManager.getDriver(), Duration.ofSeconds(timeoutSeconds))
+                .until(driver -> (Boolean) ((JavascriptExecutor) driver)
+                        .executeScript("return (window._fetchInProgress || 0) === 0"));
+        LogsUtils.info("Fetch requests completed");
     }
 
-    @Step("Wait until all AJAX requests complete within {timeoutSeconds} seconds")
-    public static void waitUntilAjaxComplete(WebDriver webDriver, int timeoutSeconds) {
-        Boolean isJquery = (Boolean) ((JavascriptExecutor) webDriver)
-                .executeScript("return typeof window.jQuery === 'function'");
-        Boolean isFetch  = (Boolean) ((JavascriptExecutor) webDriver)
-                .executeScript("return typeof window.fetch === 'function'");
-        Boolean isXhr    = (Boolean) ((JavascriptExecutor) webDriver)
-                .executeScript("return typeof window.XMLHttpRequest !== 'undefined'");
-
-        if (Boolean.TRUE.equals(isJquery)) {
-            waitUntilAjaxViaJQuery(webDriver, timeoutSeconds);
-        } else if (Boolean.TRUE.equals(isFetch)) {
-            waitUntilAjaxViaFetch(webDriver, timeoutSeconds);
-        } else if (Boolean.TRUE.equals(isXhr)) {
-            waitUntilAjaxViaXhr(webDriver, timeoutSeconds);
-        }
+    @Step("Wait for XHR requests to complete")
+    public static void waitForXhrCompletion(int timeoutSeconds) {
+        new WebDriverWait(WebDriverManager.getDriver(), Duration.ofSeconds(timeoutSeconds))
+                .until(driver -> (Boolean) ((JavascriptExecutor) driver)
+                        .executeScript("return (window._xhrInProgress || 0) === 0"));
+        LogsUtils.info("XHR requests completed");
     }
+
+
 }
+
 

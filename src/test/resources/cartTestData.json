@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "name": "Sony vaio i5",
+      "price": 790.00
+    },
+    {
+      "name": "Samsung galaxy s7",
+      "price": 800.00
+    },
+    {
+      "name": "MacBook Pro",
+      "price": 1100.00
+    }
+  ]
+}

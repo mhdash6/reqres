@@ -14,7 +14,6 @@
             <aspectj.version>1.9.24</aspectj.version>
             <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
         </properties>
-
     <repositories>
         <repository>
             <id>atlassian</id>
@@ -41,7 +40,7 @@
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
-                <version>4.31.0</version>
+                <version>4.32.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -78,7 +77,11 @@
                 <version>6.1.2</version>
                 <scope>provided</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>5.4.1</version>
+            </dependency>
             <dependency>
                 <groupId>com.atlassian.jira</groupId>
                 <artifactId>jira-rest-java-client-core</artifactId>
@@ -88,6 +91,12 @@
                 <groupId>com.atlassian.jira</groupId>
                 <artifactId>jira-rest-java-client-app</artifactId>
                 <version>5.2.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>12.10.0.jre11</version>
+                <scope>compile</scope>
             </dependency>
         </dependencies>
         <build>
@@ -101,7 +110,6 @@
                         <argLine>
                             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                         </argLine>
-
                     </configuration>
                     <dependencies>
                         <dependency>

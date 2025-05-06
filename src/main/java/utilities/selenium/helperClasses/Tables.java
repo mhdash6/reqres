@@ -2,10 +2,9 @@ package utilities.selenium.helperClasses;
 
 import static utilities.selenium.helperClasses.SimpleElementActions.findAll;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import io.qameta.allure.Step;
-import utilities.common.LogsUtil;
+import utilities.common.LogsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +12,25 @@ import java.util.List;
 public class Tables {
 
     @Step("Fetch table headers using provided locators")
-    public static String[] getHeadersNames(WebDriver driver, By... thLocators) {
-        LogsUtil.info("Fetching table headers using provided locators.");
+    public static String[] getHeadersNames( By... thLocators) {
+        LogsUtils.info("Fetching table headers using provided locators.");
         List<String> headers = new ArrayList<>();
         for (By locator : thLocators) {
-            LogsUtil.info("Fetching headers for locator: " + locator);
-            for (WebElement el : findAll(driver, locator)) {
+            LogsUtils.info("Fetching headers for locator: " + locator);
+            for (WebElement el : findAll(locator)) {
                 headers.add(el.getText().trim());
             }
         }
-        LogsUtil.info("Headers fetched: " + headers);
+        LogsUtils.info("Headers fetched: " + headers);
         return headers.toArray(new String[0]);
     }
 
     @Step("Fetch table rows using row locator: {rowLocator} and cell locator: {cellLocator}")
-    public static String[][] getTableRows(WebDriver driver, By rowLocator, By cellLocator) {
-        LogsUtil.info("Fetching table rows using row locator: " + rowLocator + " and cell locator: " + cellLocator);
-        List<WebElement> rows = findAll(driver, rowLocator);
+    public static String[][] getTableRows( By rowLocator, By cellLocator) {
+        LogsUtils.info("Fetching table rows using row locator: " + rowLocator + " and cell locator: " + cellLocator);
+        List<WebElement> rows = findAll(rowLocator);
         if (rows.isEmpty()) {
-            LogsUtil.warn("No rows found for the provided row locator: " + rowLocator);
+            LogsUtils.warn("No rows found for the provided row locator: " + rowLocator);
             return new String[0][];
         }
 
@@ -57,7 +56,7 @@ public class Tables {
             for (WebElement cell : cells) {
                 while (col < currentRow.size() && !currentRow.get(col).equals("")) col++;
                 String text = cell.getText().trim();
-                LogsUtil.info("Cell text fetched: " + text);
+                LogsUtils.info("Cell text fetched: " + text);
                 int colspan = parseSpan(cell.getDomAttribute("colspan"));
                 int rowspan = parseSpan(cell.getDomAttribute("rowspan"));
 
@@ -81,7 +80,7 @@ public class Tables {
             table.add(currentRow);
         }
 
-        LogsUtil.info("Table rows processed. Total rows: " + table.size() + ", Max columns: " + maxCols);
+        LogsUtils.info("Table rows processed. Total rows: " + table.size() + ", Max columns: " + maxCols);
 
         String[][] result = new String[table.size()][maxCols];
         for (int i = 0; i < table.size(); i++) {
@@ -90,7 +89,7 @@ public class Tables {
                 result[i][j] = j < row.size() ? row.get(j) : "";
             }
         }
-        LogsUtil.info("Table rows successfully converted to a 2D array.");
+        LogsUtils.info("Table rows successfully converted to a 2D array.");
         return result;
     }
 
@@ -100,7 +99,7 @@ public class Tables {
         try {
             return Integer.parseInt(value.trim());
         } catch (NumberFormatException e) {
-            LogsUtil.warn("Failed to parse span value: " + value + ". Defaulting to 1.");
+            LogsUtils.warn("Failed to parse span value: " + value + ". Defaulting to 1.");
             return 1;
         }
     }

@@ -2,7 +2,6 @@ package utilities.common;
 
 import io.qameta.allure.Allure;
 import org.testng.ITestResult;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -19,11 +18,11 @@ public class AllureUtils {
 
     public static void attachLogs(ITestResult result) {
         String testName= result.getMethod().getMethodName();
-        String logs = LogsUtil.getCapturedLogs();
+        String logs = LogsUtils.getCapturedLogs();
         if (!logs.isEmpty()) {
             Allure.addAttachment(testName + " Logs", logs);
         }
-        LogsUtil.clearCapturedLogs();
+        LogsUtils.clearCapturedLogs();
     }
     public static void attachPng(File file) {
         try (InputStream is = new FileInputStream(file)) {
@@ -33,29 +32,27 @@ public class AllureUtils {
                     is,
                     ".png"
             );
-            LogsUtil.info("Screenshot attached successfully: " + file.getName());
+            LogsUtils.info("Screenshot attached successfully: " + file.getName());
         } catch (IOException e) {
-            LogsUtil.error("Failed to attach screenshot: " + file.getName() + ". Error: " + e.getMessage() );
+            LogsUtils.error("Failed to attach screenshot: " + file.getName() + ". Error: " + e.getMessage() );
         }
     }
     public static void createReport(){
-        System.out.println("Effective PATH (stdout): " + System.getenv("PATH"));
-        LogsUtil.info("Effective PATH (log): " + System.getenv("PATH"));
-        boolean successful= TerminalUtils.executeCommand(true,"allure", "generate",Allure_Results_Path, "-o", Allure_Report_Path, "clean" ,"--single-file");
+        boolean successful= TerminalUtils.executeCommand(true,"allure", "generate",Allure_Results_Path, "-o", Allure_Report_Path, "--clean" ,"--single-file");
         if (!successful) {
-            LogsUtil.error("Failed to generate allure report");
+            LogsUtils.error("Failed to generate allure report");
             return;
         }
-        LogsUtil.info("Allure report generated successfully");
+        LogsUtils.info("Allure report generated successfully");
     }
 
     public static void openReport(Path file){
 
         if ( isNull(file) ) {
-            LogsUtil.warn("No allure report found in: " + Allure_Report_Path);
+            LogsUtils.warn("No allure report found in: " + Allure_Report_Path);
         }
         else {
-            LogsUtil.info("Opening allure report: " + file);
+            LogsUtils.info("Opening allure report: " + file);
             if(System.getProperty("os.name").toLowerCase().contains("win") ){
                 TerminalUtils.executeCommand(true,"start","\"\"",String.format("\"%s\"",file));
             } else {
@@ -67,12 +64,12 @@ public class AllureUtils {
     public static Path renameReport(){
         Path file = FilesUtils.getLatestFile(Allure_Report_Path);
         if (isNull(file)) {
-            LogsUtil.warn("No allure report found in: " + Allure_Report_Path);
+            LogsUtils.warn("No allure report found in: " + Allure_Report_Path);
             return null;
         }
         Path newFile = Path.of(Allure_Report_Path, "Report "+DateTime.getDateTime()+".html");
         FilesUtils.renameFile(file,newFile);
-        LogsUtil.info("Allure report renamed successfully to: " + newFile);
+        LogsUtils.info("Allure report renamed successfully to: " + newFile);
         return newFile;
     }
 
