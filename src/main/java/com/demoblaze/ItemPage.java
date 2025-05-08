@@ -2,6 +2,7 @@ package com.demoblaze;
 
 import PageComponents.NavBar;
 import org.openqa.selenium.By;
+import utilities.selenium.helperClasses.AjaxWaitUtils;
 import utilities.selenium.helperClasses.Alert;
 import utilities.common.LogsUtils;
 import utilities.uiElements.Button;
@@ -20,6 +21,7 @@ public class ItemPage  {
         if (navBar == null) {
             navBar = new NavBar<>(ItemPage.class);
         }
+        AjaxWaitUtils.waitForJQuery(10);
     }
 
     private String getProductName() {

@@ -16,6 +16,7 @@ public class NavBar<T> {
 
     private final Class<T> currentPage;
 
+
     private final Link logo = new Link(By.id("nava"));
     private final Link homeLink = new Link(By.cssSelector("li.nav-item.active a.nav-link"));
     private final Link contactLink = new Link(By.cssSelector("a[data-target='#exampleModal']"));
@@ -86,7 +87,7 @@ public class NavBar<T> {
 
     public boolean isLoggedIn() {
         LogsUtils.info("Checking if the user is logged in.");
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(5);
         boolean loggedIn = !welcomeMsgLink.isEmpty();
         LogsUtils.info("User is logged in: " + loggedIn);
         return loggedIn;

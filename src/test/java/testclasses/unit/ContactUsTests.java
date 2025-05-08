@@ -2,6 +2,8 @@ package testclasses.unit;
 
 import PageComponents.ContactForm;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utilities.common.ExcelUtils;
@@ -10,6 +12,10 @@ import utilities.common.SqlServerUtils;
 import java.util.List;
 import java.util.Map;
 
+import static utilities.common.assertions.AssertionManager.assertFalse;
+import static utilities.common.assertions.AssertionManager.assertTrue;
+
+@Feature("Contact Us Feature")
 public class ContactUsTests {
     Map<String,String> contactInEnglish;
     Map<String,String> contactInArabic;
@@ -20,12 +26,11 @@ public class ContactUsTests {
         contactWithEmojis= contactTestData.get(1);
         contactWithEmptyFields = contactTestData.get(2);
         contactInArabic = contactTestData.getLast();
-
     }
 
-    @Test
+    @Story("Submit contact form in English successfully")
+    @Test(groups = {"Smoke","Unit"})
     public void ContactInEnglish(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ContactForm<HomePage> contactForm= homePage.navBar.clickContact();
@@ -33,14 +38,13 @@ public class ContactUsTests {
                 contactInEnglish.get("contact_name"),
                 contactInEnglish.get("message"));
         contactForm.clickSendMessageBtn();
-        softAssert.assertTrue(contactForm.successMsgDisplayed());
+        assertTrue(contactForm.successMsgDisplayed());
         contactForm.acceptSucessAlert();
-        softAssert.assertAll();
     }
 
-    @Test
+    @Story("Submit contact form in Arabic successfully")
+    @Test(groups = "Unit")
     public void ContactInArabic(){
-         SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ContactForm<HomePage> contactForm= homePage.navBar.clickContact();
@@ -48,14 +52,13 @@ public class ContactUsTests {
                 contactInArabic.get("contact_name"),
                 contactInArabic.get("message"));
         contactForm.clickSendMessageBtn();
-        softAssert.assertTrue(contactForm.successMsgDisplayed());
+        assertTrue(contactForm.successMsgDisplayed());
         contactForm.acceptSucessAlert();
-        softAssert.assertAll();
     }
 
-    @Test
+    @Story("Send contact message with emojis successfully")
+    @Test(groups = "Unit")
     public void ContactWithEmojis(){
-         SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ContactForm<HomePage> contactForm= homePage.navBar.clickContact();
@@ -63,14 +66,13 @@ public class ContactUsTests {
                 contactWithEmojis.get("contact_name"),
                 contactWithEmojis.get("message"));
         contactForm.clickSendMessageBtn();
-        softAssert.assertTrue(contactForm.successMsgDisplayed());
+        assertTrue(contactForm.successMsgDisplayed());
         contactForm.acceptSucessAlert();
-        softAssert.assertAll();
     }
 
-    @Test
+    @Story("Allow message submission with only message body")
+    @Test(groups = "Unit")
     public void ContactEmptyEmailAndNameFields(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ContactForm<HomePage> contactForm= homePage.navBar.clickContact();
@@ -78,22 +80,19 @@ public class ContactUsTests {
                 contactWithEmptyFields.get("contact_name"),
                 contactWithEmptyFields.get("message"));
         contactForm.clickSendMessageBtn();
-        softAssert.assertTrue(contactForm.successMsgDisplayed(),"Success message is not displayed.");
+        assertTrue(contactForm.successMsgDisplayed(),"Success message is not displayed.");
         contactForm.acceptSucessAlert();
-        softAssert.assertAll();
     }
 
-    @Test
+    @Story("Prevent empty contact form submission")
+    @Test(groups = "Unit")
     public void ContactWithAllFieldsEmpty(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ContactForm<HomePage> contactForm= homePage.navBar.clickContact();
         contactForm.clickSendMessageBtn();
-        softAssert.assertFalse(contactForm.successMsgDisplayed(),"Success message is displayed." +
+        assertFalse(contactForm.successMsgDisplayed(),"Success message is displayed." +
                 " Contact form should not be submitted if all fields are empty.");
-        contactForm.acceptSucessAlert();
-        softAssert.assertAll();
     }
 
 }

@@ -1,10 +1,15 @@
 package testclasses.unit;
 
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utilities.common.ExcelUtils;
 
+import static utilities.common.assertions.AssertionManager.assertEquals;
+
+@Feature("Home Page Feature")
 public class HomePageTests {
     int firstPageItemsCount;
     int secondPageItemsCount;
@@ -22,67 +27,63 @@ public class HomePageTests {
         monitorsCount = Integer.parseInt(excelUtils.getCellData(5,1));
     }
 
-    @Test
+    @Story("View Correct Item Count For First Page")
+    @Test(groups = {"Smoke","Unit"})
     public void validateFirstPageItemsCount(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         int count= homePage.getProductCount();
         excelSheet.setCellData(1,2,count);
         excelSheet.save();
-        softAssert.assertEquals(count,firstPageItemsCount);
-        softAssert.assertAll();
+        assertEquals(count,firstPageItemsCount);
     }
 
-    @Test
+    @Story("View Correct Item Count For Second Page")
+    @Test(groups = {"Smoke","Unit"})
     public void validateSecondPageItemsCount(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.clickNextPage();
         int count= homePage.getProductCount();
         excelSheet.setCellData(2,2,count);
         excelSheet.save();
-        softAssert.assertEquals(count,secondPageItemsCount);
-        softAssert.assertAll();
+        assertEquals(count,secondPageItemsCount);
     }
 
-    @Test
+    @Story("View Correct Item Count for Phones category")
+    @Test(groups = "Unit")
     public void validatePhonesCount(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.clickPhonesLink();
         int count= homePage.getProductCount();
         excelSheet.setCellData(3,2,count);
         excelSheet.save();
-        softAssert.assertEquals(count,phonesCount);
-        softAssert.assertAll();
+        assertEquals(count,phonesCount);
     }
 
-    @Test
+    @Story("View Correct Item Count for Laptops category")
+    @Test(groups = "Unit")
     public void validateLaptopsCount(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.clickLaptopsLink();
         int count= homePage.getProductCount();
         excelSheet.setCellData(4,2,count);
         excelSheet.save();
-        softAssert.assertEquals(count,laptopsCount);
-        softAssert.assertAll();
+        assertEquals(count,laptopsCount);
     }
-    @Test
+
+    @Story("View Correct Item Count for Monitors category")
+    @Test(groups = "Unit")
     public void validateMonitorsCount(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.clickMonitorsLink();
         int count= homePage.getProductCount();
         excelSheet.setCellData(5,2,count);
         excelSheet.save();
-        softAssert.assertEquals(count,monitorsCount);
-        softAssert.assertAll();
+        assertEquals(count,monitorsCount);
     }
 
 }

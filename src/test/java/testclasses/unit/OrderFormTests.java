@@ -3,10 +3,15 @@ package testclasses.unit;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.models.OrderFormTestData;
 
+import static utilities.common.assertions.AssertionManager.*;
+
+@Feature("Order Form Feature")
 public class OrderFormTests {
     OrderFormTestData testData;
     OrderFormTestData.OrderForm buyer;
@@ -17,9 +22,9 @@ public class OrderFormTests {
     }
 
 
-    @Test
+    @Story("Place order with complete details")
+    @Test(groups = {"Smoke","Unit"})
     public void OrderFormWithValidData(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.addItemsToCart(testData.getItemsNames());
@@ -27,42 +32,39 @@ public class OrderFormTests {
         OrderForm orderForm= cartPage.clickPlaceOrder();
         orderForm.fillOrderForm(buyer.name, buyer.country, buyer.city, buyer.card, buyer.month, buyer.year );
         orderForm.clickPurchase();
-        softAssert.assertEquals(orderForm.getAmount(),testData.getTotalCost());
-        softAssert.assertTrue(orderForm.isSuccessful(),"Order was not successful.");
-        softAssert.assertAll();
+        assertEquals(orderForm.getAmount(),testData.getTotalCost());
+        assertTrue(orderForm.isSuccessful(),"Order was not successful.");
     }
 
-    @Test
+    @Story("Show error when buyer info missing")
+    @Test(groups = "Unit")
     public void OrderFormWithNoData(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.addItemsToCart(testData.getItemsNames()[0]);
         CartPage cartPage= homePage.navBar.clickCart();
         OrderForm orderForm= cartPage.clickPlaceOrder();
         orderForm.clickPurchase();
-        softAssert.assertTrue(orderForm.IsCorrectErrorMsgDisplayed(),"Error message is not displayed.");
+        assertTrue(orderForm.IsCorrectErrorMsgDisplayed(),"Error message is not displayed.");
         orderForm.acceptAlert();
-        softAssert.assertAll();
     }
 
-    @Test
+    @Story("Prevent order when cart is empty")
+    @Test(groups = "Unit")
     public void OrderFormWithEmptyCart(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         CartPage cartPage = homePage.navBar.clickCart();
-        softAssert.assertTrue(cartPage.isCartEmpty(),"Cart is not empty at the start.");
+        assertTrue(cartPage.isCartEmpty(),"Cart is not empty at the start.");
         OrderForm orderForm= cartPage.clickPlaceOrder();
         orderForm.fillOrderForm(buyer.name, buyer.country, buyer.city, buyer.card, buyer.month, buyer.year );
         orderForm.clickPurchase();
-        softAssert.assertFalse(orderForm.isSuccessful(),"Order was successful but should not be as cart is empty.");
-        softAssert.assertAll();
+        assertFalse(orderForm.isSuccessful(),"Order was successful but should not be as cart is empty.");
     }
 
-    @Test
+    @Story("Allow order submission without address")
+    @Test(groups = "Unit")
     public void OrderFormWithNoAddress(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.addItemsToCart(testData.getItemsNames());
@@ -70,9 +72,6 @@ public class OrderFormTests {
         OrderForm orderForm= cartPage.clickPlaceOrder();
         orderForm.fillOrderForm(buyer.name, "", "", buyer.card, buyer.month, buyer.year );
         orderForm.clickPurchase();
-        softAssert.assertTrue(orderForm.isSuccessful(),"Order was not successful.");
-        softAssert.assertAll();
+        assertTrue(orderForm.isSuccessful(),"Order was not successful.");
     }
-
-
 }

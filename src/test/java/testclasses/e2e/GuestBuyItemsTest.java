@@ -3,12 +3,15 @@ package testclasses.e2e;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utils.models.E2eTestData;
 
+import static utilities.common.assertions.AssertionManager.assertTrue;
 
 
+@Feature("Guest Buy Items Feature")
 public class GuestBuyItemsTest {
     E2eTestData testData;
     E2eTestData.OrderForm orderFormData;
@@ -18,9 +21,10 @@ public class GuestBuyItemsTest {
         orderFormData = testData.orderForm;
     }
 
-    @Test
+
+    @Story("Complete purchase of selected products")
+    @Test(groups = "E2E")
     public void testPurchasingProducts() {
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.addItemsToCart(testData.getProductsNames());
@@ -30,8 +34,7 @@ public class GuestBuyItemsTest {
                 orderFormData.city, orderFormData.card, orderFormData.month,
                 orderFormData.year);
         orderForm.clickPurchase();
-        softAssert.assertTrue(orderForm.isSuccessful(), "Order was not successful.");
+        assertTrue(orderForm.isSuccessful(), "Order was not successful.");
         orderForm.clickOk();
-        softAssert.assertAll();
     }
 }

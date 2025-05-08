@@ -2,12 +2,16 @@ package testclasses.unit;
 
 import PageComponents.LoginForm;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utils.models.LoginTestData;
 
 import java.util.List;
 
+import static utilities.common.assertions.AssertionManager.assertTrue;
+
+@Feature("Login Feature")
 public class LoginTests {
     LoginTestData validCredentials;
     LoginTestData inValidUserName;
@@ -19,47 +23,43 @@ public class LoginTests {
         inValidPassword = data.getLast();
     }
 
-    @Test
+    @Story("Log in successfully with valid credentials")
+    @Test(groups = {"Smoke","Unit"})
     public void loginWithValidCredentials(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         homePage= loginForm.login(validCredentials.username,validCredentials.password);
-        softAssert.assertTrue(homePage.navBar.isLoggedIn());
-        softAssert.assertAll();
+        assertTrue(homePage.navBar.isLoggedIn());
     }
-    @Test
+
+    @Story("Reject login with incorrect username")
+    @Test(groups = "Unit")
     public void loginWithInvalidUsername(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         loginForm.login(inValidUserName.username,inValidUserName.password);
-        softAssert.assertTrue(loginForm.isInvalidUsername());
-        softAssert.assertAll();
+        assertTrue(loginForm.isInvalidUsername());
     }
 
-    @Test
+    @Story("Reject login with incorrect password")
+    @Test(groups = "Unit")
     public void loginWithInvalidPassword(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         loginForm.login(inValidPassword.username,inValidPassword.password);
-        softAssert.assertTrue(loginForm.isInvalidPassword());
-        softAssert.assertAll();
+        assertTrue(loginForm.isInvalidPassword());
     }
 
-
-
-    @Test
+    @Story("Prevent login with empty credentials")
+    @Test(groups = "Unit")
     public void loginWithEmptyCredentials(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         loginForm.clickLogin();
-        softAssert.assertTrue(loginForm.isEmptyCredentials());
+        assertTrue(loginForm.isEmptyCredentials());
     }
 }

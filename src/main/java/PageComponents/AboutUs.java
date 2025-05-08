@@ -41,7 +41,7 @@ public class AboutUs<T> {
 
     public T clickClose() {
         closeBtn.click();
-        Waits.waitForElementToBeInvisible(body.getLocator(),2);
+        Waits.waitForElementToBeInvisible(body.getLocator(),3);
         LogsUtils.info("'Close' button clicked successfully.");
         try {
             return currentPage.getDeclaredConstructor().newInstance();
@@ -53,7 +53,7 @@ public class AboutUs<T> {
 
     public T clickExit() {
         exitBtn.click();
-        Waits.waitForElementToBeInvisible(body.getLocator(),2);
+        Waits.waitForElementToBeInvisible(body.getLocator(),3);
         try {
             return currentPage.getDeclaredConstructor().newInstance();
         } catch (Exception e) {

@@ -4,12 +4,15 @@ import PageComponents.LoginForm;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utils.models.E2eTestData;
 import utils.models.LoginTestData;
 
+import static utilities.common.assertions.AssertionManager.assertTrue;
 
+@Feature( "User Buy Items Feature")
 public class UserBuyItemsTest {
     E2eTestData testData;
     LoginTestData validLoginCredentials;
@@ -22,14 +25,14 @@ public class UserBuyItemsTest {
     }
 
 
-    @Test
-    public void testProductPurchase() {
-        SoftAssert softAssert = new SoftAssert();
+    @Story("Complete purchase of selected products")
+    @Test(groups = "E2E" )
+    public void testProductsPurchase() {
         HomePage homePage = new HomePage();
         homePage.load();
         LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
         homePage= loginForm.login(validLoginCredentials.username, validLoginCredentials.password);
-        softAssert.assertTrue(homePage.navBar.isLoggedIn());
+        assertTrue(homePage.navBar.isLoggedIn());
         homePage.addItemsToCart(testData.getProductsNames());
         CartPage cartPage = homePage.navBar.clickCart();
         OrderForm orderForm = cartPage.clickPlaceOrder();
@@ -37,8 +40,7 @@ public class UserBuyItemsTest {
                 orderFormData.city, orderFormData.card, orderFormData.month,
                 orderFormData.year);
         orderForm.clickPurchase();
-        softAssert.assertTrue(orderForm.isSuccessful(), "Order was not successful.");
+        assertTrue(orderForm.isSuccessful(), "Order was not successful.");
         orderForm.clickOk();
-        softAssert.assertAll();
     }
 }

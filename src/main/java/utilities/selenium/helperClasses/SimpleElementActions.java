@@ -17,13 +17,11 @@ public class SimpleElementActions {
     }
 
     public static List<WebElement> findAll( By... locators) {
-        LogsUtils.info("Finding all elements for the provided locators.");
         Set<WebElement> uniqueElements = new LinkedHashSet<>();
         for (By loc : locators) {
             LogsUtils.info("Finding elements located by: " + loc);
             uniqueElements.addAll(WebDriverManager.getDriver().findElements(loc));
         }
-        LogsUtils.info("Total unique elements found: " + uniqueElements.size());
         return new ArrayList<>(uniqueElements);
     }
 

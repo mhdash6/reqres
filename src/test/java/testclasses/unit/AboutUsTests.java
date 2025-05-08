@@ -2,32 +2,33 @@ package testclasses.unit;
 
 import PageComponents.AboutUs;
 import com.demoblaze.HomePage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
+import static utilities.common.assertions.AssertionManager.assertFalse;
+import static utilities.common.assertions.AssertionManager.assertTrue;
 
+@Feature("About Us Feature")
 public class AboutUsTests {
 
-    @Test
+    @Story("Open About Us Page And Find No Errors")
+    @Test(groups = {"Smoke","Unit"})
     public void AboutUsNoErrors(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         AboutUs<HomePage> aboutUs= homePage.navBar.clickAboutUs();
         String errorMsg=aboutUs.getErrorMsg();
-        softAssert.assertTrue(errorMsg.isEmpty(),errorMsg);
-        softAssert.assertAll();
+        assertTrue(errorMsg.isEmpty(),errorMsg);
     }
 
-    @Test
+    @Story("Close About Us Page")
+    @Test(groups = {"Smoke","Unit"})
     public void AboutUsClosable(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         AboutUs<HomePage> aboutUs= homePage.navBar.clickAboutUs();
         aboutUs.clickClose();
-        softAssert.assertFalse(aboutUs.isDisplayed(),"About us is still displayed.");
-        softAssert.assertAll();
+        assertFalse(aboutUs.isDisplayed(),"About us is still displayed.");
     }
-
 
 }

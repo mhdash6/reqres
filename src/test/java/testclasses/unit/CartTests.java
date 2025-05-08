@@ -1,17 +1,21 @@
 package testclasses.unit;
 
 import static org.apache.commons.collections4.CollectionUtils.isEqualCollection;
+import static utilities.common.assertions.AssertionManager.assertEquals;
+import static utilities.common.assertions.AssertionManager.assertTrue;
+
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import com.demoblaze.ItemPage;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utils.models.CartTestData;
 
 import java.util.List;
 
 
-
+@Feature("Cart Feature")
 public class CartTests {
     CartTestData.Item item1;
     CartTestData.Item item2;
@@ -25,10 +29,9 @@ public class CartTests {
        items = cartTestData;
     }
 
-
-    @Test
-    public void addItemToCart(){
-        SoftAssert softAssert = new SoftAssert();
+    @Story("Add single item to cart")
+    @Test(groups = {"Smoke","Unit"})
+    public void addOneItemToCart(){
         HomePage homePage = new HomePage();
         homePage.load();
         ItemPage itemPage = homePage.clickOnProduct(item1.name);
@@ -36,27 +39,25 @@ public class CartTests {
         itemPage.acceptAlert();
         CartPage cartPage = itemPage.navBar.clickCart();
         String ItemInCart =  cartPage.getItemsNames().getFirst();
-        softAssert.assertEquals(ItemInCart,item1.name);
-        softAssert.assertEquals(cartPage.getTotal(),item1.price);
-        softAssert.assertAll();
+        assertEquals(ItemInCart,item1.name);
+        assertEquals(cartPage.getTotal(),item1.price);
     }
 
-    @Test
+    @Story("Add multiple items to cart")
+    @Test(groups = {"Smoke","Unit"})
     public void addMultipleItemsToCart(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         homePage.addItemsToCart(item1.name, item2.name,item3.name);
         CartPage cartPage = homePage.navBar.clickCart();
         List<String> itemsInCart = cartPage.getItemsNames();
-        softAssert.assertTrue(isEqualCollection(itemsInCart,items.getItemsNames()));
-        softAssert.assertEquals(cartPage.getTotal(),items.getTotalCost());
-        softAssert.assertAll();
+        assertTrue(isEqualCollection(itemsInCart,items.getItemsNames()));
+        assertEquals(cartPage.getTotal(),items.getTotalCost());
     }
 
-    @Test
+    @Story("Remove item from cart")
+    @Test(groups = {"Smoke","Unit"})
     public void addItemToCartAndDelete(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         ItemPage itemPage = homePage.clickOnProduct(item1.name);
@@ -64,17 +65,15 @@ public class CartTests {
         itemPage.acceptAlert();
         CartPage cartPage = itemPage.navBar.clickCart();
         cartPage.deleteItem(item1.name);
-        softAssert.assertTrue(cartPage.isCartEmpty(), "Cart is not empty after deletion.");
-        softAssert.assertAll();
+        assertTrue(cartPage.isCartEmpty(), "Cart is not empty after deletion.");
     }
 
-    @Test
+    @Story("View empty cart on first load")
+    @Test(groups = {"Smoke","Unit"})
     public void CartStartedWithNoItems(){
-        SoftAssert softAssert = new SoftAssert();
         HomePage homePage = new HomePage();
         homePage.load();
         CartPage cartPage = homePage.navBar.clickCart();
-        softAssert.assertTrue(cartPage.isCartEmpty(), "Cart is not empty at the start.");
-        softAssert.assertAll();
+        assertTrue(cartPage.isCartEmpty(), "Cart is not empty at the start.");
     }
 }

@@ -1,0 +1,8 @@
+{
+  "name": "Mohammed Ashraf",
+  "type": "Jenkins",
+  "url": "https://github.com/mhdash6/demoblaze",
+  "buildOrder": 1,
+  "buildName": "My First Automation Project",
+  "reportName": "Regression"
+}

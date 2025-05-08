@@ -6,6 +6,7 @@ import utilities.common.LogsUtils;
 import utilities.selenium.helperClasses.Waits;
 
 import static utilities.selenium.helperClasses.SimpleElementActions.find;
+import static utilities.selenium.helperClasses.SimpleElementActions.findAll;
 
 abstract class UiElement {
 
@@ -22,14 +23,13 @@ abstract class UiElement {
     public boolean isDisplayed() {
         try{
             LogsUtils.info("Checking if element is displayed: " + locator.toString());
-            Waits.waitForElementVisibility(locator, 2);
-            return find(locator).isDisplayed();
+            Waits.waitForElementVisibility(locator, 5);
+            return !findAll( locator ).isEmpty() && find(locator).isDisplayed();
         }catch(Exception e){
-            LogsUtils.error("Element is not displayed. Error: " );
+            LogsUtils.error("Element is not displayed." );
             return false;
         }
     }
-
 
     public By getLocator() {
         return locator;

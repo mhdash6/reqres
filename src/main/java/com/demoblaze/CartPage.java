@@ -116,6 +116,7 @@ public class CartPage  {
 
 
     public OrderForm clickPlaceOrder() {
+        AjaxWaitUtils.waitForJQuery(5);
         LogsUtils.info("Clicking Place Order.");
         placeOrderBtn.click();
         return new OrderForm();

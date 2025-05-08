@@ -3,6 +3,7 @@ package utilities.selenium.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import utilities.common.PropertiesUtils;
 
 public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
     FirefoxOptions options;
@@ -14,6 +15,9 @@ public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-infobars");
         options.addArguments("--window-size=1920,1080");
+        if (PropertiesUtils.getProperty("headless").equals("true")){
+            options.addArguments("--headless");
+        }
         return options;
     }
 

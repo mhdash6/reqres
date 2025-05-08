@@ -8,6 +8,7 @@ import utilities.common.PropertiesUtils;
 import utilities.selenium.helperClasses.AjaxWaitUtils;
 import utilities.selenium.helperClasses.BrowserActions;
 import utilities.selenium.helperClasses.SimpleElementActions;
+
 import utilities.selenium.helperClasses.Waits;
 import utilities.uiElements.Button;
 import utilities.uiElements.Container;
@@ -32,6 +33,7 @@ public class HomePage {
     }
 
     public int getProductCount() {
+        AjaxWaitUtils.waitForJQuery(10);
         if(isProductListVisible()){
             int count = SimpleElementActions.findAll(productList.getLocator()).size();
             LogsUtils.info("Product count: " + count);
@@ -44,7 +46,7 @@ public class HomePage {
     public void load() {
         String url=  PropertiesUtils.getProperty("url");
         BrowserActions.navigateToURL(url);
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(10);
         LogsUtils.info("Home page loaded successfully.");
     }
 
@@ -64,27 +66,29 @@ public class HomePage {
     public void clickNextPage() {
         nextBtn.click();
         LogsUtils.info("Clicked 'Next' button successfully.");
-        AjaxWaitUtils.waitForJQuery(2);
+        Waits.waitForElementToBeInvisible(nextBtn.getLocator(), 5);
+        AjaxWaitUtils.waitForJQuery(10);
     }
     public void clickPreviousPage() {
+        AjaxWaitUtils.waitForJQuery(10);
         previousBtn.click();
         LogsUtils.info("Clicked 'Previous' button successfully.");
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(10);
     }
     public void clickPhonesLink() {
         phonesLink.click();
         LogsUtils.info("Clicked 'Phones' link successfully.");
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(10);
     }
     public void clickLaptopsLink() {
         laptopsLink.click();
         LogsUtils.info("Clicked 'Laptops' link successfully.");
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(10);
     }
     public void clickMonitorsLink() {
         monitorsLink.click();
         LogsUtils.info("Clicked 'Monitors' link successfully.");
-        AjaxWaitUtils.waitForJQuery(2);
+        AjaxWaitUtils.waitForJQuery(10);
     }
 
     public boolean isPreviousPageButtonVisible() {
@@ -103,7 +107,6 @@ public class HomePage {
     public void addItemsToCart(String... productNames) {
         for (String productName : productNames) {
             ItemPage itemPage = null;
-
             Link productLink = new Link(By.linkText(productName));
             if (productLink.isDisplayed()) {
                 itemPage = clickOnProduct(productName);

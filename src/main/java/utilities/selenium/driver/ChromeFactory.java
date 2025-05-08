@@ -3,6 +3,7 @@ package utilities.selenium.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chrome.ChromeDriver;
+import utilities.common.PropertiesUtils;
 
 public class ChromeFactory implements DriverFactory<ChromeOptions> {
     ChromeOptions options;
@@ -15,7 +16,9 @@ public class ChromeFactory implements DriverFactory<ChromeOptions> {
         options.addArguments("--disable-infobars");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-blink-features=AutomationControlled");
-//        options.addArguments("--headless");
+        if (PropertiesUtils.getProperty("headless").equals("true")){
+            options.addArguments("--headless");
+        }
         return options;
     }
 

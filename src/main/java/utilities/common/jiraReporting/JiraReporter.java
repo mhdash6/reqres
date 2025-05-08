@@ -1,4 +1,4 @@
-package utilities.common;
+package utilities.common.jiraReporting;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -39,17 +39,17 @@ public class JiraReporter implements AutoCloseable {
         return issue;
     }
 
-    public void reportBug(String projectKey, String summary, String description) {
+    public void reportBug(String projectKey, String summary, String description,String reporter) {
         createIssue(projectKey, summary, description);
     }
 
     public void reportBug(String projectKey,
                           String summary,
                           String description,
+                          String reporter,
                           String pngFilePath) {
         BasicIssue issue = createIssue(projectKey, summary, description);
 
-        // now attach the PNG
         Issue full = issueClient.getIssue(issue.getKey()).claim();
         try (InputStream in = new FileInputStream(pngFilePath)) {
             String fileName = Paths.get(pngFilePath).getFileName().toString();

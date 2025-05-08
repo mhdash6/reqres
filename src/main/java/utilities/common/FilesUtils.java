@@ -102,6 +102,24 @@ public class FilesUtils {
             }
         }
     }
+    public static void deleteFileContent(File folder, String except) {
+        LogsUtils.info("Deleting files or folders in: " + folder.getAbsolutePath());
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().equals(except)) {
+                    continue;
+                }
+                if (file.isDirectory()) {
+                    deleteFileContent(file);
+                }
+                if (!file.delete()) {
+                    LogsUtils.warn("Failed to delete: " + file.getAbsolutePath());
+                }
+            }
+        }
+    }
+
 
 
 
@@ -155,6 +173,9 @@ public class FilesUtils {
     }
     public static Path getLatestFile(String folderPath) {
         return getLatestFile(Paths.get(folderPath));
+    }
+    public static void deleteFileContent(String folder, String except){
+        deleteFileContent(new File(folder),except);
     }
 }
 

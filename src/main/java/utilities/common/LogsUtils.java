@@ -10,6 +10,7 @@ public  class LogsUtils {
     private LogsUtils() {
     }
 
+
     private static Logger logger() {
         return LogManager.getLogger(Thread.currentThread().getStackTrace()[3].getClassName());
     }
