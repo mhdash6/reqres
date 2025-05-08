@@ -114,6 +114,7 @@ public class CartPage  {
         return count;
     }
 
+    //dfgdfgfdf
 
     public OrderForm clickPlaceOrder() {
         AjaxWaitUtils.waitForJQuery(5);
