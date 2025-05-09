@@ -26,7 +26,7 @@ abstract class UiElement {
             Waits.waitForElementVisibility(locator, 5);
             return !findAll( locator ).isEmpty() && find(locator).isDisplayed();
         }catch(Exception e){
-            LogsUtils.error("Element is not displayed." );
+            LogsUtils.warn("Element is not displayed." );
             return false;
         }
     }

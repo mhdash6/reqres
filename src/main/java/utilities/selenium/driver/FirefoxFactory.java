@@ -3,6 +3,7 @@ package utilities.selenium.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import utilities.common.PropertiesUtils;
 
 public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
@@ -10,16 +11,19 @@ public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
 
     @Override
     public FirefoxOptions initializeOptions() {
-        options = new FirefoxOptions();
+        FirefoxProfile profile = new FirefoxProfile();
+        FirefoxOptions options = new FirefoxOptions();
         options.setAcceptInsecureCerts(true);
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-infobars");
+        profile.setPreference("dom.webnotifications.enabled", false);
+        options.setProfile(profile);
         options.addArguments("--window-size=1920,1080");
-        if (PropertiesUtils.getProperty("headless").equals("true")){
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
             options.addArguments("--headless");
         }
         return options;
     }
+
+
 
     @Override
     public WebDriver createInstance() {

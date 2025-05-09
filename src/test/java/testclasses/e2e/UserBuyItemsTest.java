@@ -4,8 +4,7 @@ import PageComponents.LoginForm;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import utils.models.E2eTestData;
 import utils.models.LoginTestData;
@@ -26,7 +25,9 @@ public class UserBuyItemsTest {
 
 
     @Story("Complete purchase of selected products")
-    @Test(groups = "E2E" )
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that a user can log in, add products to the cart, place an order, and complete a successful purchase.")
+    @Test(groups = "E2E")
     public void testProductsPurchase() {
         HomePage homePage = new HomePage();
         homePage.load();

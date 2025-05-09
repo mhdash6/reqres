@@ -3,8 +3,7 @@ package testclasses.e2e;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import utils.models.E2eTestData;
 
@@ -23,6 +22,8 @@ public class GuestBuyItemsTest {
 
 
     @Story("Complete purchase of selected products")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that products can be added to the cart and a purchase can be completed successfully without logging in.")
     @Test(groups = "E2E")
     public void testPurchasingProducts() {
         HomePage homePage = new HomePage();

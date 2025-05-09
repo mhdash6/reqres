@@ -2,8 +2,7 @@ package testclasses.unit;
 
 import PageComponents.AboutUs;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import static utilities.common.assertions.AssertionManager.assertFalse;
 import static utilities.common.assertions.AssertionManager.assertTrue;
@@ -11,8 +10,11 @@ import static utilities.common.assertions.AssertionManager.assertTrue;
 @Feature("About Us Feature")
 public class AboutUsTests {
 
+
     @Story("Open About Us Page And Find No Errors")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verifies that the About Us page opens correctly and no error messages are present.")
+    @Test(groups = {"Smoke", "Unit"})
     public void AboutUsNoErrors(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -22,7 +24,9 @@ public class AboutUsTests {
     }
 
     @Story("Close About Us Page")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verifies that the About Us modal can be closed and is no longer visible.")
+    @Test(groups = {"Unit"})
     public void AboutUsClosable(){
         HomePage homePage = new HomePage();
         homePage.load();

@@ -11,8 +11,9 @@
             <maven.compiler.target>23</maven.compiler.target>
             <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
             <allure.version>2.29.1</allure.version>
-            <aspectj.version>1.9.24</aspectj.version>
+            <suiteFile>TestRunners/parallelTesting.xml</suiteFile>
             <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
+            <aspectj.version>1.9.24</aspectj.version>
         </properties>
     <repositories>
         <repository>
@@ -108,7 +109,7 @@
                     <version>${maven.surefire.plugin.version}</version>
                     <configuration>
                         <suiteXmlFiles>
-                            <suiteXmlFile>TestRunners/parallelTesting.xml</suiteXmlFile>
+                            <suiteXmlFile>${suiteFile}</suiteXmlFile>
                         </suiteXmlFiles>
                         <argLine>
                             -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"

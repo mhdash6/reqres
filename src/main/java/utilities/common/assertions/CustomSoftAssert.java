@@ -42,9 +42,11 @@ public class CustomSoftAssert extends SoftAssert {
             if (screenshot != null) {
                 AllureUtils.attachPng(screenshot);
             }
-          String summary=  JiraManager.createSummary(testName,story);
-          String description=   JiraManager.createDescription(ex.getMessage());
-          JiraManager.reportFailure(PropertiesUtils.getProperty("jiraProjectKey"),summary,description,screenshot);
+            if("true".equalsIgnoreCase(PropertiesUtils.getProperty("reportToJira"))){
+                String summary=  JiraManager.createSummary(testName,story);
+                String description=   JiraManager.createDescription(ex.getMessage());
+                JiraManager.reportFailure(PropertiesUtils.getProperty("jiraProjectKey"),summary,description,screenshot);
+            }
     }
 
 

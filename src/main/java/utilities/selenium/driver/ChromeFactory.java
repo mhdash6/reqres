@@ -12,11 +12,13 @@ public class ChromeFactory implements DriverFactory<ChromeOptions> {
     public ChromeOptions initializeOptions() {
         options = new ChromeOptions();
         options.setAcceptInsecureCerts(true);
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-infobars");
-        options.addArguments("--window-size=1920,1080");
-        options.addArguments("--disable-blink-features=AutomationControlled");
-        if (PropertiesUtils.getProperty("headless").equals("true")){
+        options.addArguments(
+                "--disable-notifications",
+                "--disable-infobars",
+                "--start-maximized",
+                "--disable-blink-features=AutomationControlled"
+        );
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
             options.addArguments("--headless");
         }
         return options;

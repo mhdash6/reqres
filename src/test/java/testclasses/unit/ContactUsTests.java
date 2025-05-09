@@ -2,8 +2,7 @@ package testclasses.unit;
 
 import PageComponents.ContactForm;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utilities.common.ExcelUtils;
@@ -29,7 +28,9 @@ public class ContactUsTests {
     }
 
     @Story("Submit contact form in English successfully")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the contact form can be submitted successfully in English with valid input.")
+    @Test(groups = {"Smoke", "Unit"})
     public void ContactInEnglish(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -43,6 +44,8 @@ public class ContactUsTests {
     }
 
     @Story("Submit contact form in Arabic successfully")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the contact form can be submitted successfully in Arabic with valid input.")
     @Test(groups = "Unit")
     public void ContactInArabic(){
         HomePage homePage = new HomePage();
@@ -57,6 +60,8 @@ public class ContactUsTests {
     }
 
     @Story("Send contact message with emojis successfully")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verifies that the contact form accepts messages containing emojis and can be submitted successfully.")
     @Test(groups = "Unit")
     public void ContactWithEmojis(){
         HomePage homePage = new HomePage();
@@ -71,6 +76,8 @@ public class ContactUsTests {
     }
 
     @Story("Allow message submission with only message body")
+    @Severity(SeverityLevel.MINOR)
+    @Description("Verifies that the contact form can be submitted with only a message body, leaving email and name fields empty.")
     @Test(groups = "Unit")
     public void ContactEmptyEmailAndNameFields(){
         HomePage homePage = new HomePage();
@@ -85,6 +92,8 @@ public class ContactUsTests {
     }
 
     @Story("Prevent empty contact form submission")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that the contact form does not allow submission when all fields are left empty.")
     @Test(groups = "Unit")
     public void ContactWithAllFieldsEmpty(){
         HomePage homePage = new HomePage();

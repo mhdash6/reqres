@@ -2,8 +2,7 @@ package testclasses.unit;
 
 import PageComponents.LoginForm;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import utils.models.LoginTestData;
 
@@ -24,7 +23,9 @@ public class LoginTests {
     }
 
     @Story("Log in successfully with valid credentials")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that users can log in successfully with valid credentials.")
+    @Test(groups = {"Smoke", "Unit"})
     public void loginWithValidCredentials(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -34,6 +35,8 @@ public class LoginTests {
     }
 
     @Story("Reject login with incorrect username")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that login is rejected when using an invalid username.")
     @Test(groups = "Unit")
     public void loginWithInvalidUsername(){
         HomePage homePage = new HomePage();
@@ -44,6 +47,8 @@ public class LoginTests {
     }
 
     @Story("Reject login with incorrect password")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that login is rejected when using an invalid password.")
     @Test(groups = "Unit")
     public void loginWithInvalidPassword(){
         HomePage homePage = new HomePage();
@@ -54,6 +59,8 @@ public class LoginTests {
     }
 
     @Story("Prevent login with empty credentials")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that login is prevented when both username and password fields are left empty.")
     @Test(groups = "Unit")
     public void loginWithEmptyCredentials(){
         HomePage homePage = new HomePage();

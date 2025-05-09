@@ -7,7 +7,12 @@
         <listener class-name="listeners.MethodInvocationListener"/>
         <listener class-name="listeners.RetryListener"/>
     </listeners>
-    <test name="Tests">
+    <test name="Smoke Tests Only">
+        <groups>
+            <run>
+                <include name="Smoke"/>
+            </run>
+        </groups>
         <classes>
             <class name="utils.testFactories.TestFactory"/>
         </classes>

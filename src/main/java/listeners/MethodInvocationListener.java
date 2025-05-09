@@ -16,7 +16,7 @@ public class MethodInvocationListener implements IInvokedMethodListener {
         if (method.isTestMethod()) {
             String browser = ThreadContext.get("browser");
             if (browser == null) {
-                browser = "chrome"; // fallback
+                browser = "chrome";
                 LogsUtils.warn("Browser not found in ThreadContext. Defaulting to Chrome.");
             }
             WebDriverManager.initializeDriver(browser);

@@ -7,8 +7,7 @@ import static utilities.common.assertions.AssertionManager.assertTrue;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import com.demoblaze.ItemPage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import utils.models.CartTestData;
 
@@ -30,7 +29,9 @@ public class CartTests {
     }
 
     @Story("Add single item to cart")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Verifies that a single item can be added to the cart and the item details (name and price) are correct.")
+    @Test(groups = {"Smoke", "Unit"})
     public void addOneItemToCart(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -44,7 +45,9 @@ public class CartTests {
     }
 
     @Story("Add multiple items to cart")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that multiple selected items can be added to the cart and their total cost and names match the expected values.")
+    @Test(groups = {"Unit"})
     public void addMultipleItemsToCart(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -56,7 +59,9 @@ public class CartTests {
     }
 
     @Story("Remove item from cart")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that an item can be added to the cart and successfully removed, resulting in an empty cart.")
+    @Test(groups = {"Smoke", "Unit"})
     public void addItemToCartAndDelete(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -69,7 +74,9 @@ public class CartTests {
     }
 
     @Story("View empty cart on first load")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the shopping cart is initially empty when the homepage is first loaded.")
+    @Test(groups = {"Unit"})
     public void CartStartedWithNoItems(){
         HomePage homePage = new HomePage();
         homePage.load();

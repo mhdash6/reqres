@@ -1,8 +1,7 @@
 package testclasses.unit;
 
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utilities.common.ExcelUtils;
@@ -28,7 +27,9 @@ public class HomePageTests {
     }
 
     @Story("View Correct Item Count For First Page")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the first page of the product list displays the expected number of items.")
+    @Test(groups = {"Smoke", "Unit"})
     public void validateFirstPageItemsCount(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -39,7 +40,9 @@ public class HomePageTests {
     }
 
     @Story("View Correct Item Count For Second Page")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the second page of the product list displays the expected number of items after navigation.")
+    @Test(groups = {"Smoke", "Unit"})
     public void validateSecondPageItemsCount(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -51,6 +54,8 @@ public class HomePageTests {
     }
 
     @Story("View Correct Item Count for Phones category")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the Phones category displays the correct number of items.")
     @Test(groups = "Unit")
     public void validatePhonesCount(){
         HomePage homePage = new HomePage();
@@ -63,6 +68,8 @@ public class HomePageTests {
     }
 
     @Story("View Correct Item Count for Laptops category")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the Laptops category displays the correct number of items.")
     @Test(groups = "Unit")
     public void validateLaptopsCount(){
         HomePage homePage = new HomePage();
@@ -75,6 +82,8 @@ public class HomePageTests {
     }
 
     @Story("View Correct Item Count for Monitors category")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that the Monitors category displays the correct number of items.")
     @Test(groups = "Unit")
     public void validateMonitorsCount(){
         HomePage homePage = new HomePage();

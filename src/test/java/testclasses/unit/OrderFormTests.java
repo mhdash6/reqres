@@ -3,8 +3,7 @@ package testclasses.unit;
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.models.OrderFormTestData;
@@ -23,7 +22,9 @@ public class OrderFormTests {
 
 
     @Story("Place order with complete details")
-    @Test(groups = {"Smoke","Unit"})
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Verifies that the order can be placed successfully when all buyer details are provided.")
+    @Test(groups = {"Smoke", "Unit"})
     public void OrderFormWithValidData(){
         HomePage homePage = new HomePage();
         homePage.load();
@@ -37,6 +38,8 @@ public class OrderFormTests {
     }
 
     @Story("Show error when buyer info missing")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that an error message is shown when the buyer's information is incomplete.")
     @Test(groups = "Unit")
     public void OrderFormWithNoData(){
         HomePage homePage = new HomePage();
@@ -50,6 +53,8 @@ public class OrderFormTests {
     }
 
     @Story("Prevent order when cart is empty")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verifies that the order cannot be placed when the cart is empty.")
     @Test(groups = "Unit")
     public void OrderFormWithEmptyCart(){
         HomePage homePage = new HomePage();
@@ -63,6 +68,8 @@ public class OrderFormTests {
     }
 
     @Story("Allow order submission without address")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verifies that an order can be placed even if the buyer's address is missing.")
     @Test(groups = "Unit")
     public void OrderFormWithNoAddress(){
         HomePage homePage = new HomePage();

@@ -34,6 +34,8 @@ public class TestResultListener implements ITestListener {
                 .get("browser");
         if (browser != null) {
             ThreadContext.put("browser", browser);
+        }else {
+            ThreadContext.put("browser", "chrome");
         }
     }
 

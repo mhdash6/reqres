@@ -6,7 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
 import static java.util.Objects.isNull;
 
@@ -74,6 +77,13 @@ public class AllureUtils {
     }
 
 
-
+    public static void setEnvironmentVariables () {
+        try {
+            Files.write(Paths.get(Allure_Results_Path+"/environment.properties"),
+                    Arrays.asList("Environment=QA","Title="+PropertiesUtils.getProperty("appTitle"),"Url="+PropertiesUtils.getProperty("url")));
+        } catch (Exception e) {
+            LogsUtils.error("Failed to set environment properties: " + e.getMessage());
+        }
+    }
 
 }

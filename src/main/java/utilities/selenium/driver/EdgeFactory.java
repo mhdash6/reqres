@@ -12,10 +12,13 @@ public class EdgeFactory implements DriverFactory<EdgeOptions> {
     public EdgeOptions initializeOptions() {
         options = new EdgeOptions();
         options.setAcceptInsecureCerts(true);
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-infobars");
-        options.addArguments("--window-size=1920,1080");
-        if (PropertiesUtils.getProperty("headless").equals("true")){
+        options.addArguments(
+                "--disable-notifications",
+                "--disable-infobars",
+                "--start-maximized",
+                "--disable-blink-features=AutomationControlled"
+        );
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
             options.addArguments("--headless");
         }
         return options;
