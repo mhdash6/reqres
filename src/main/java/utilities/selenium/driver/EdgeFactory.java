@@ -18,7 +18,7 @@ public class EdgeFactory implements DriverFactory<EdgeOptions> {
                 "--start-maximized",
                 "--disable-blink-features=AutomationControlled"
         );
-        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))|| "jenkins".equalsIgnoreCase(PropertiesUtils.getProperty("executionType"))) {
             options.addArguments("--headless");
         }
         return options;

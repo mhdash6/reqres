@@ -26,8 +26,10 @@ public class ExecutionListener implements IExecutionListener {
 
     @Override
     public void onExecutionFinish() {
-        createReport();
-        openReport(renameReport());
+        if ("local".equalsIgnoreCase(PropertiesUtils.getProperty("executionType"))) {
+            createReport();
+            openReport(renameReport());
+        }
         ThreadContext.clearMap();
         AssertionManager.clearSoftAssert();
     }

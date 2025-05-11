@@ -17,12 +17,11 @@ public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
         profile.setPreference("dom.webnotifications.enabled", false);
         options.setProfile(profile);
         options.addArguments("--window-size=1920,1080");
-        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))|| "jenkins".equalsIgnoreCase(PropertiesUtils.getProperty("executionType"))) {
             options.addArguments("--headless");
         }
         return options;
     }
-
 
 
     @Override
