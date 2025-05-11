@@ -26,7 +26,7 @@ abstract class UiElement {
             Waits.waitForElementVisibility(locator, 5);
             return !findAll( locator ).isEmpty() && find(locator).isDisplayed();
         }catch(Exception e){
-            LogsUtils.warn("Element is not displayed." );
+            LogsUtils.info("Element is not displayed." );
             return false;
         }
     }
@@ -34,6 +34,5 @@ abstract class UiElement {
     public By getLocator() {
         return locator;
     }
-
 
 }

@@ -2,6 +2,7 @@ package PageComponents;
 
 
 import com.demoblaze.CartPage;
+import com.demoblaze.HomePage;
 import org.openqa.selenium.By;
 import utilities.common.LogsUtils;
 
@@ -87,10 +88,11 @@ public class OrderForm{
         LogsUtils.info("'Purchase' button clicked successfully.");
     }
 
-    public void clickOk() {
+    public HomePage clickOk() {
         AjaxWaitUtils.waitForJQuery(2);
         okBtn.click();
         LogsUtils.info("'OK' button clicked successfully.");
+       return new HomePage();
     }
 
     public boolean isSuccessful() {

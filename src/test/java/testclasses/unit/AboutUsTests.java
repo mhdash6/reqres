@@ -20,6 +20,11 @@ public class AboutUsTests {
         homePage.load();
         AboutUs<HomePage> aboutUs= homePage.navBar.clickAboutUs();
         String errorMsg=aboutUs.getErrorMsg();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         assertTrue(errorMsg.isEmpty(),errorMsg);
     }
 

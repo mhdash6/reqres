@@ -1,5 +1,6 @@
 package utilities.selenium.driver;
 
+import com.epam.healenium.SelfHealingDriver;
 import org.openqa.selenium.WebDriver;
 
 import io.qameta.allure.Step;
@@ -10,19 +11,19 @@ public class WebDriverManager {
     }
 
 
- private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+ private static final ThreadLocal<SelfHealingDriver> driver = new ThreadLocal<>();
 
 
     @Step("Initializing the Driver for browser: {browser}")
     public static void initializeDriver(String browser) {
         switch (browser.toLowerCase()) {
-            case "chrome" ->driver.set( new ChromeFactory().createInstance());
-            case "firefox"-> driver.set(new  FirefoxFactory().createInstance());
-            case "edge"-> driver.set( new EdgeFactory().createInstance());
+            case "chrome" ->driver.set(SelfHealingDriver.create( new ChromeFactory().createInstance()));
+            case "firefox"-> driver.set(SelfHealingDriver.create (new  FirefoxFactory().createInstance()));
+            case "edge"-> driver.set(SelfHealingDriver.create( new EdgeFactory().createInstance()));
         }
     }
 
-    public static WebDriver getDriver() {
+    public static SelfHealingDriver getDriver() {
         return driver.get();
     }
 

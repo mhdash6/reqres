@@ -3,6 +3,7 @@ package PageComponents;
 
 import org.openqa.selenium.By;
 import utilities.common.LogsUtils;
+import utilities.selenium.helperClasses.AjaxWaitUtils;
 import utilities.selenium.helperClasses.Waits;
 import utilities.uiElements.Button;
 import utilities.uiElements.Container;
@@ -34,6 +35,8 @@ public class AboutUs<T> {
 
 
     public String getErrorMsg() {
+        AjaxWaitUtils.waitForJQuery(3);
+        Waits.waitForElementVisibility(errorMsg.getLocator(),3);
         String message = errorMsg.getText();
         LogsUtils.info("Error message fetched: " + message);
         return message;

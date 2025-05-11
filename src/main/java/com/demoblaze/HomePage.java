@@ -20,7 +20,7 @@ public class HomePage {
     public static NavBar<HomePage> navBar;
 
     private final Container productList = new Container(By.cssSelector("#tbodyid .card"));
-     public final Button nextBtn = new Button(By.id("next2"));
+    public final Button nextBtn = new Button(By.id("next2"));
     private final Button previousBtn = new Button(By.id("prev2"));
     private final Link phonesLink = new Link(By.linkText("Phones"));
     private final Link laptopsLink = new Link(By.linkText("Laptops"));

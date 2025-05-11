@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import utils.models.E2eTestData;
 import utils.models.LoginTestData;
 
+import static utilities.common.assertions.AssertionManager.assertFalse;
 import static utilities.common.assertions.AssertionManager.assertTrue;
 
 @Feature( "User Buy Items Feature")
@@ -42,6 +43,8 @@ public class UserBuyItemsTest {
                 orderFormData.year);
         orderForm.clickPurchase();
         assertTrue(orderForm.isSuccessful(), "Order was not successful.");
-        orderForm.clickOk();
+        homePage= orderForm.clickOk();
+        homePage= homePage.navBar.clickLogOut();
+        assertFalse(homePage.navBar.isLoggedIn(), "User was not logged out.");
     }
 }
