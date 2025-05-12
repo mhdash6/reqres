@@ -50,7 +50,6 @@ public class SignUpTests {
        signUpForm.enterPassword(password);
        signUpForm.clickSignUp();
        assertTrue(signUpForm.isInvalidUsername());
-       signUpForm.acceptAlert();
     }
 
 

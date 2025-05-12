@@ -8,6 +8,7 @@
         <listener class-name="listeners.RetryListener"/>
     </listeners>
     <test name="Tests">
+        <parameter name="browser" value="firefox"/>
         <classes>
             <class name="utils.testFactories.TestFactory"/>
         </classes>

@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import utilities.common.LogsUtils;
 import utilities.selenium.helperClasses.AjaxWaitUtils;
 import utilities.selenium.helperClasses.Alert;
+import utilities.selenium.helperClasses.Waits;
 import utilities.uiElements.Button;
 import utilities.uiElements.Container;
 import utilities.uiElements.TextInputField;
@@ -76,5 +77,6 @@ public class SignUpForm<T>  {
     }
     public void acceptAlert(){
         Alert.clickOK();
+        Waits.waitForElementToBeInvisible(body.getLocator(),5);
     }
 }
