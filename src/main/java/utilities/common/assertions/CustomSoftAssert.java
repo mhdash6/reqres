@@ -9,7 +9,6 @@ import utilities.common.AllureUtils;
 import utilities.common.LogsUtils;
 import utilities.common.PropertiesUtils;
 import utilities.common.jiraReporting.JiraManager;
-import utilities.common.jiraReporting.JiraReporter;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -34,20 +33,29 @@ public class CustomSoftAssert extends SoftAssert {
     @Override
     public void onAssertFailure(IAssert<?> assertCommand, AssertionError ex) {
         super.onAssertFailure(assertCommand, ex);
+
         Method testMethod = Reporter.getCurrentTestResult().getMethod().getConstructorOrMethod().getMethod();
-        String testName   = testMethod.getName();
-        File screenshot= takeScreenShot(testName + "_Failed");
-        Story story = testMethod.getAnnotation(Story.class);
+        String testName = testMethod.getName();
+        File screenshot = takeScreenShot(testName + "_Failed");
         LogsUtils.error("Assertion Failed: " + ex.getMessage());
-            if (screenshot != null) {
-                AllureUtils.attachPng(screenshot);
-            }
-            if("true".equalsIgnoreCase(PropertiesUtils.getProperty("reportToJira"))){
-                String summary=  JiraManager.createSummary(testName,story);
-                String description=   JiraManager.createDescription(ex.getMessage());
-                JiraManager.reportFailure(PropertiesUtils.getProperty("jiraProjectKey"),summary,description,screenshot);
-            }
+
+        if (screenshot != null) {
+            AllureUtils.attachPng(screenshot);
+        }
+
+        if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("reportToJira"))) {
+            Story story = testMethod.getAnnotation(Story.class);
+            String summary = JiraManager.createSummary(testName, story);
+            String description = JiraManager.createDescription(ex.getMessage());
+            JiraManager.reportFailure(
+                    PropertiesUtils.getProperty("jiraProjectKey"),
+                    summary,
+                    description,
+                    screenshot
+            );
+        }
     }
+
 
 
     @Override

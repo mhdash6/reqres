@@ -3,42 +3,42 @@ package utilities.common.assertions;
 import org.testng.ITestResult;
 
 public class AssertionManager {
-    private static final ThreadLocal<CustomSoftAssert> softAssertContainer =  ThreadLocal.withInitial(CustomSoftAssert::new);
+    private static final ThreadLocal<CustomSoftAssert> customSoftAssertContainer =  ThreadLocal.withInitial(CustomSoftAssert::new);
 
-    public static CustomSoftAssert getSoftAssert() {
-        return softAssertContainer.get();
+    public static CustomSoftAssert getCustomSoftAssert() {
+        return customSoftAssertContainer.get();
     }
 
     public static void assertAll(ITestResult testResult) {
-        getSoftAssert().customAssertAll(testResult);
+        getCustomSoftAssert().customAssertAll(testResult);
         clearSoftAssert();
     }
 
     public static void clearSoftAssert() {
-        softAssertContainer.remove();
+        customSoftAssertContainer.remove();
     }
 
     public static void assertEquals(Object actual, Object expected, String message) {
-        getSoftAssert().assertEquals(actual, expected, message);
+        getCustomSoftAssert().assertEquals(actual, expected, message);
     }
 
     public static void assertEquals(Object actual, Object expected) {
-        getSoftAssert().assertEquals(actual, expected);
+        getCustomSoftAssert().assertEquals(actual, expected);
     }
 
     public static void assertTrue(boolean condition, String message) {
-        getSoftAssert().assertTrue(condition, message);
+        getCustomSoftAssert().assertTrue(condition, message);
     }
 
     public static void assertTrue(boolean condition) {
-        getSoftAssert().assertTrue(condition);
+        getCustomSoftAssert().assertTrue(condition);
     }
 
     public static void assertFalse(boolean condition, String message) {
-        getSoftAssert().assertFalse(condition, message);
+        getCustomSoftAssert().assertFalse(condition, message);
     }
 
     public static void assertFalse(boolean condition) {
-        getSoftAssert().assertFalse(condition);
+        getCustomSoftAssert().assertFalse(condition);
     }
 }

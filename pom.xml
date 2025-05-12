@@ -11,7 +11,7 @@
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <allure.version>2.29.1</allure.version>
-        <suiteFile>TestRunners/parallelTesting.xml</suiteFile>
+        <suiteFile>TestRunners/crossBrowserTestIng.xml</suiteFile>
         <maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
         <aspectj.version>1.9.24</aspectj.version>
     </properties>
@@ -101,6 +101,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.epam.healenium</groupId>
             <artifactId>healenium-web</artifactId>
             <version>3.5.6</version>
@@ -110,6 +115,11 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>7.0.0</version>
         </dependency>
     </dependencies>
     <build>

@@ -16,7 +16,9 @@ public class FirefoxFactory implements DriverFactory<FirefoxOptions> {
         options.setAcceptInsecureCerts(true);
         profile.setPreference("dom.webnotifications.enabled", false);
         options.setProfile(profile);
-        options.addArguments("--window-size=1920,1080");
+        options.addPreference("full-screen-api.enabled", true);
+        options.addPreference("full-screen-api.allow-trusted-requests", true);
+        options.addArguments("--kiosk");
         if ("true".equalsIgnoreCase(PropertiesUtils.getProperty("headless"))) {
             options.addArguments("--headless");
         }

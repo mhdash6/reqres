@@ -26,16 +26,16 @@ public class PropertiesUtils {
                     if ("true".equalsIgnoreCase(prop.getProperty("enabled"))) {
                         String fileName = path.getFileName().toString().toLowerCase();
 
-                        if (fileName.contains("env") && !env) {
+                        if (fileName.toLowerCase().contains("env") && !env) {
                             properties.putAll(prop);
                             env = true;
                            LogsUtils.info("Loading environment properties from: " + path);
-                        } else if (fileName.contains("test") && !test) {
+                        } else if (fileName.toLowerCase().contains("config") && !test) {
                             properties.putAll(prop);
                             test = true;
                            LogsUtils.info("Loading test properties from: " + path);
 
-                        } else if (fileName.contains("secret") && !secret) {
+                        } else if (fileName.toLowerCase().contains("secret") && !secret) {
                             properties.putAll(prop);
                             secret = true;
                            LogsUtils.info("Loading secret properties from: " + path);

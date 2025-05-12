@@ -76,7 +76,7 @@ public class CsvUtils {
 
 
 
-    @Step("Write CSV data to path: {filePath}")
+
     public static void writeCsvFromListOfArrays(String filePath, List<String[]> data, String[] headers) {
         LogsUtils.info("Writing CSV data to path: " + filePath);
         CsvSchema schema = CsvSchema.builder()

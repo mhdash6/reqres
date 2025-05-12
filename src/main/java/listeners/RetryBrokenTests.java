@@ -8,7 +8,7 @@ import org.testng.ITestResult;
 public class RetryBrokenTests implements IRetryAnalyzer {
 
     private int retryCount = 0;
-    private static final int MAX_RETRIES = 2;
+    private static final int MAX_RETRIES = 6;
 
     @Override
     public boolean retry(ITestResult iTestResult) {

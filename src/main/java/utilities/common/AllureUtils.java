@@ -80,7 +80,7 @@ public class AllureUtils {
     public static void setEnvironmentVariables () {
         try {
             Files.write(Paths.get(Allure_Results_Path+"/environment.properties"),
-                    Arrays.asList("Environment=QA","Title="+PropertiesUtils.getProperty("appTitle"),"Url="+PropertiesUtils.getProperty("url")));
+                    Arrays.asList("Environment="+PropertiesUtils.getProperty("environmentType"),"Title="+PropertiesUtils.getProperty("appTitle"),"Url="+PropertiesUtils.getProperty("url")));
         } catch (Exception e) {
             LogsUtils.error("Failed to set environment properties: " + e.getMessage());
         }

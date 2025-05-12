@@ -39,14 +39,13 @@ public class JiraReporter implements AutoCloseable {
         return issue;
     }
 
-    public void reportBug(String projectKey, String summary, String description,String reporter) {
+    public void reportBug(String projectKey, String summary, String description) {
         createIssue(projectKey, summary, description);
     }
 
     public void reportBug(String projectKey,
                           String summary,
                           String description,
-                          String reporter,
                           String pngFilePath) {
         BasicIssue issue = createIssue(projectKey, summary, description);
 

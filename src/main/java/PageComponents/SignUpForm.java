@@ -3,6 +3,7 @@ package PageComponents;
 
 import org.openqa.selenium.By;
 import utilities.common.LogsUtils;
+import utilities.selenium.helperClasses.Alert;
 import utilities.uiElements.Button;
 import utilities.uiElements.Container;
 import utilities.uiElements.TextInputField;
@@ -63,5 +64,12 @@ public class SignUpForm<T>  {
             LogsUtils.error("Couldn't create new instance of the current page class. Error: ", e.getMessage());
             return null;
         }
+    }
+
+    public String getErrorMsg(){
+      return Alert.getAlertMessage();
+    }
+    public boolean isInvalidUsername(){
+        return "This user already exist.".equals(getErrorMsg());
     }
 }

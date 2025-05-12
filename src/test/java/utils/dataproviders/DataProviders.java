@@ -1,5 +1,6 @@
 package utils.dataproviders;
 
+import com.github.javafaker.Faker;
 import org.testng.annotations.DataProvider;
 import utilities.common.CsvUtils;
 import utilities.common.ExcelUtils;
@@ -66,4 +67,13 @@ public class DataProviders {
         List<Map<String,String>> messages = db.readQuery("SELECT * FROM new_message");
         return new Object[][] {{messages}};
     }
+    @DataProvider(name = "signUpData")
+    public static Object[][] signUpData() {
+        return new Object[][] {
+                { new Faker() }
+            };
+        }
+
+
+
 }

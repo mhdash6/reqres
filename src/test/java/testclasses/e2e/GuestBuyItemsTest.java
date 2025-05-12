@@ -21,6 +21,7 @@ public class GuestBuyItemsTest {
     }
 
 
+
     @Story("Complete purchase of selected products")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Verifies that products can be added to the cart and a purchase can be completed successfully without logging in.")
