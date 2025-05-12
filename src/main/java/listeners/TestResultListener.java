@@ -29,14 +29,7 @@ public class TestResultListener implements ITestListener {
 
     @Override
     public void onStart(ITestContext context) {
-        String browser = context.getCurrentXmlTest()
-                .getLocalParameters()
-                .get("browser");
-        if (browser != null) {
-            ThreadContext.put("browser", browser);
-        }else {
-            ThreadContext.put("browser", "chrome");
-        }
+        LogsUtils.info("Test run started");
     }
 
     @Override

@@ -2,6 +2,7 @@ package utilities.selenium.helperClasses;
 
 
 import io.qameta.allure.Step;
+import org.apache.logging.log4j.ThreadContext;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.UnhandledAlertException;
 import utilities.selenium.driver.WebDriverManager;
@@ -27,7 +28,7 @@ public class ScreenShotUtils {
         LogsUtils.info("Taking screenshot for: " + fileName);
         try {
             File screenshot = ((TakesScreenshot) WebDriverManager.getDriver().getDelegate()).getScreenshotAs(OutputType.FILE);
-            targetFile = new File(SCREEN_SHOTS_PATH + fileName + DateTime.getDateTime() + ".png");
+            targetFile = new File(SCREEN_SHOTS_PATH + ThreadContext.get("browser") + fileName + DateTime.getDateTime() + ".png");
             Files.copy(screenshot.toPath(), targetFile.toPath());
             LogsUtils.info("Screenshot taken successfully: " + targetFile.getAbsolutePath());
             return targetFile;

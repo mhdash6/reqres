@@ -3,6 +3,7 @@ package PageComponents;
 
 import org.openqa.selenium.By;
 import utilities.common.LogsUtils;
+import utilities.selenium.helperClasses.AjaxWaitUtils;
 import utilities.selenium.helperClasses.Alert;
 import utilities.uiElements.Button;
 import utilities.uiElements.Container;
@@ -21,6 +22,7 @@ public class LoginForm<T>  {
 
     public LoginForm(Class<T> currentPage) {
         this.currentPage = currentPage;
+        AjaxWaitUtils.waitForJQuery(5);
         if(isDisplayed()){
             LogsUtils.info("ContactForm modal is visible.");
         }

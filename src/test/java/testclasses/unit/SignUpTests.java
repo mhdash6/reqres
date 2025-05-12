@@ -32,7 +32,7 @@ public class SignUpTests {
        signUpForm.enterUserName(username);
        signUpForm.enterPassword(password);
        homePage= signUpForm.clickSignUp();
-       homePage.navBar.clickLogin();
+       signUpForm.acceptAlert();
        LoginForm<HomePage> loginForm = homePage.navBar.clickLogin();
        homePage= loginForm.login(username,password);
        assertTrue(homePage.navBar.isLoggedIn());
@@ -50,6 +50,7 @@ public class SignUpTests {
        signUpForm.enterPassword(password);
        signUpForm.clickSignUp();
        assertTrue(signUpForm.isInvalidUsername());
+       signUpForm.acceptAlert();
     }
 
 
