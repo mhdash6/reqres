@@ -117,14 +117,6 @@ public Object[] createCartTests(CartTestData cartData) {
 
 ---
 
-## 🧪 Configuration Management
-
-- Test data: in `/utils/models` as POJOs
-- Configuration values (browser, URL, timeouts): in `.properties` or XML files
-- Browser setup: via `DriverFactory` and `WebDriverManager`
-
----
-
 ## 📊 Reporting & CI/CD
 
 - **Allure Reports**:
@@ -138,6 +130,14 @@ public Object[] createCartTests(CartTestData cartData) {
     - Trigger test runs on every commit
     - Archive Allure reports
     - Status badges, result tracking
+
+---
+
+## 🧪 Configuration Management
+
+- Test data: in `/utils/models` as POJOs
+- Configuration values (browser, URL, timeouts): in `.properties` or XML files
+- Browser setup: via `DriverFactory` and `WebDriverManager`
 
 ---
 
