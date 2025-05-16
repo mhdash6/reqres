@@ -83,7 +83,7 @@ public Object[] createCartTests(CartTestData cartData) {
 - **Input/Output Utilities**  
   Excel, CSV, JSON, and SQL support through modular readers and writers.
 
-  ### 2. Browser Support
+### 2. Browser Support
 - Supports Chrome, Firefox, and Edge via flexible driver factories.
 
 ### 3. Listeners & Test Lifecycle
@@ -145,12 +145,17 @@ public Object[] createCartTests(CartTestData cartData) {
 - ChromeDriver / GeckoDriver (auto-managed or manually installed)
 - Allure CLI (for reporting)
 
-### Run All Tests:
+### 🚀 Run Default Test Suite
+
+By default, running:
+
 ```bash
 mvn clean test
 ```
 
-### Run Specific Suite :
+will execute the **Parallel Browser Suite** (`parallel-browser-suite.xml`), which spins up **6 threads in total**—with **2 parallel threads** for each browser (Chrome, Firefox, and Edge), maximizing cross-browser coverage and speed.
+
+### 🚀 Run Specific Suite :
 ```bash
 mvn -DsuiteFile=TestRunners/SmokeTesting.xml test
 ```
