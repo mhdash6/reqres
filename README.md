@@ -86,26 +86,36 @@ public Object[] createCartTests(CartTestData cartData) {
 ### 2. Browser Support
 - Supports Chrome, Firefox, and Edge via flexible driver factories.
 
-### 3. Listeners & Test Lifecycle
+### 3. Locator Healing with Helenium Driver
+- Integrated **Helenium WebDriver**, a self-healing driver that uses **machine learning** to fix broken locators during runtime.
+- Learns from historical test executions to automatically detect and resolve locator issues.
+- Wrapped inside the custom `DriverFactory`, seamlessly replacing the standard WebDriver without requiring test logic changes.
+- Logs healing attempts and applied alternatives for transparency.
+- Greatly reduces test maintenance and improves stability after UI changes.
+
+![Healnium Server locators](healnium.png "Screenshot showing Healnium server collecting locators during test runs")
+
+
+### 4. Listeners & Test Lifecycle
 - **ExecutionListener**: Centralized control over test suite setup/teardown.  
 - **Retry & Result Listeners**: Automatically retries broken tests only and logs results consistently.  
 - **Method-Level Hooks**: Add pre/post logic without modifying test methods.  
 - **Test Isolation**: Keeps test logic focused by handling non-test concerns behind the scenes.  
 - **Reusable Design**: Modular listeners work across multiple projects.
 
-### 4. Custom Assertions
+### 5. Custom Assertions
 - **Soft Assertions**: Accumulates multiple failures without stopping execution.  
 - **Thread-Safe & Clean**: Per-thread tracking and cleanup ensure safe execution.  
 - **Integrated with TestNG**: Works seamlessly with its lifecycle.
 
-### 5. Logging System
+### 6. Logging System
 - **Thread-Local Logs**: Prevents log mixing in parallel runs.  
 - **Allure Integration**: Attaches logs per test for better traceability.  
 - **Console & File Output**: Real-time ANSI-colored logs and rolling file logs under `test_outputs/logs`.  
 - **Context Routing**: Uses MDC/custom keys to separate logs per context.  
 - **Standard API**: Uses Log4j2 without extra boilerplate.
 
-### 6. Jira Integration
+### 7. Jira Integration
 - **Singleton `JiraManager`**: Lazy-loaded, efficient, and centralized.  
 - **Synchronous Execution**: Immediate issue creation on test failure.  
 - **Unified API Layer**: Handles create, comment, and attach in one place.  
