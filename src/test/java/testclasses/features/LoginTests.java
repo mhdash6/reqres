@@ -1,4 +1,4 @@
-package testclasses.unit;
+package testclasses.features;
 
 import PageComponents.LoginForm;
 import com.demoblaze.HomePage;

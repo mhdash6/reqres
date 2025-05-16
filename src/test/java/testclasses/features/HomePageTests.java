@@ -1,9 +1,8 @@
-package testclasses.unit;
+package testclasses.features;
 
 import com.demoblaze.HomePage;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utilities.common.ExcelUtils;
 
 import static utilities.common.assertions.AssertionManager.assertEquals;

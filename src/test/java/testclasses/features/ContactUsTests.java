@@ -1,12 +1,9 @@
-package testclasses.unit;
+package testclasses.features;
 
 import PageComponents.ContactForm;
 import com.demoblaze.HomePage;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
-import utilities.common.ExcelUtils;
-import utilities.common.SqlServerUtils;
 
 import java.util.List;
 import java.util.Map;

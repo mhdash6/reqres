@@ -1,4 +1,4 @@
-package testclasses.unit;
+package testclasses.features;
 
 import static org.apache.commons.collections4.CollectionUtils.isEqualCollection;
 import static utilities.common.assertions.AssertionManager.assertEquals;

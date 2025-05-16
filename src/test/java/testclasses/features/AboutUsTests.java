@@ -1,4 +1,4 @@
-package testclasses.unit;
+package testclasses.features;
 
 import PageComponents.AboutUs;
 import com.demoblaze.HomePage;

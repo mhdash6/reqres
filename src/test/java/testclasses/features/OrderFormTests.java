@@ -1,11 +1,10 @@
-package testclasses.unit;
+package testclasses.features;
 
 import PageComponents.OrderForm;
 import com.demoblaze.CartPage;
 import com.demoblaze.HomePage;
 import io.qameta.allure.*;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import utils.models.OrderFormTestData;
 
 import static utilities.common.assertions.AssertionManager.*;
