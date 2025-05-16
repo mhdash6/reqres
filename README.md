@@ -147,12 +147,12 @@ public Object[] createCartTests(CartTestData cartData) {
 
 ### 🚀 Run Default Test Suite
 
-By default, running:
+By default, this will execute the **Parallel Browser Suite** (`crossBrowserTesting.xml`), which spins up **6 threads in total**—with **2 parallel threads** for each browser (Chrome, Firefox, and Edge)—maximizing cross-browser coverage and speed.
 
 ```bash
 mvn clean test
 ```
-will execute the **Parallel Browser Suite** (`crossBrowserTestIng.xml`), which spins up **6 threads in total**—with **2 parallel threads** for each browser (Chrome, Firefox, and Edge), maximizing cross-browser coverage and speed.
+
 
 
 ### 🚀 Run Specific Suite :
