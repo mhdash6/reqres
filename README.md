@@ -152,8 +152,8 @@ By default, running:
 ```bash
 mvn clean test
 ```
+will execute the **Parallel Browser Suite** (`crossBrowserTestIng.xml`), which spins up **6 threads in total**—with **2 parallel threads** for each browser (Chrome, Firefox, and Edge), maximizing cross-browser coverage and speed.
 
-will execute the **Parallel Browser Suite** (`parallel-browser-suite.xml`), which spins up **6 threads in total**—with **2 parallel threads** for each browser (Chrome, Firefox, and Edge), maximizing cross-browser coverage and speed.
 
 ### 🚀 Run Specific Suite :
 ```bash
