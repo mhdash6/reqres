@@ -1,0 +1,10 @@
+{
+  "newUser": {
+    "username":"Mohammed Ashraf",
+    "job": "Test Automation Engineer"
+  },
+  "getUserId":2,
+  "deleteUserId":1,
+  "updateUserId": 2,
+  "page": 2
+}
